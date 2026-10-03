@@ -218,10 +218,13 @@ D3 مسیر اجرای ابری است.
 اصول تأییدشدهٔ D3:
 
 - executor/service ابری D3 در Alpha با Python mapping می‌شود؛
+- topology اصلی D3 در Alpha، Managed Container است؛
+- معماری مفهومی شامل API boundary، Python service، job queue، bounded worker pool و managed storage است؛
+- Alpha به Kubernetes الزام ندارد؛
 - cloud نباید مستقل و خودسرانه TSETMC را scrape کند؛
 - cloud snapshot ارسالی client یا منبعی را مصرف می‌کند که مستقل و مجاز تأیید شده باشد؛
 - انتقال دادهٔ بازار، profile و filter با رضایت و policy روشن انجام می‌شود؛
-- data residency، retention، deletion، authentication، packaging و cloud topology هنوز نهایی نشده‌اند؛
+- data residency، retention، deletion، authentication، packaging و cloud provider هنوز نهایی نشده‌اند؛
 - parity با D1 و D2 باید با canonical fixture و test اثبات شود.
 
 ---
@@ -382,17 +385,16 @@ Compute Dispatcher فقط در Artifact B قرار می‌گیرد و هرگز �
 - نباید network policy deployment جاری را دور بزند؛
 - شکست ظرفیت باید گزارش شود، نه پنهان.
 
-D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python mapping شده‌اند. پورت concrete، authentication implementation، packaging و cloud topology هنوز تصمیم نهایی نیستند؛ transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده است.
+D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed Container mapping شده‌اند. پورت concrete، authentication implementation، packaging، cloud provider و scaling topology هنوز تصمیم نهایی نیستند؛ transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده است.
 
 ---
 
 ## ۱۶. تصمیم‌های باقی‌مانده برای تأیید مالک
 
-این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport D2 و mapping زبان‌های D1/D2/D3 در تصمیم‌های `D-2026-10-03-001` و `D-2026-10-03-002` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
+این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport D2، mapping زبان‌ها و topology اصلی D3 در تصمیم‌های `D-2026-10-03-001`، `D-2026-10-03-002` و `D-2026-10-03-003` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
 
-1. معماری D3: Serverless، Container، VM یا گزینهٔ دیگر؛
-2. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
-3. ترتیب نهایی افزودن PARTها و gateها.
+1. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
+2. ترتیب نهایی افزودن PARTها و gateها.
 
 هیچ‌کدام از این گزینه‌ها در این Alpha default نیستند.
 

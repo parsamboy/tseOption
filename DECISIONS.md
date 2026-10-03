@@ -131,9 +131,77 @@ D3 Cloud:          Python cloud executor/service
 
 این تصمیم موارد زیر را انتخاب نمی‌کند:
 
-- cloud topology؛
 - packaging و distribution دقیق Node.js؛
 - Python runtime packaging؛
 - libraryهای عددی مجاز؛
 - ترتیب اجرای executorها؛
 - parity fixtures و release gateهای نهایی.
+
+## D-2026-10-03-003: D3 Cloud Topology for Alpha
+
+- **Class:** B — cloud/deployment architecture
+- **Date:** 2026-10-03
+- **Version:** Architecture Contract Alpha
+- **Decision maker:** مالک پروژه
+- **Status:** accepted for Alpha direction
+
+### Question
+
+D3 برای اجرای Python cloud executor/service در Alpha از چه topologyای استفاده کند؟
+
+### Options considered
+
+- A — Serverless
+- B — Managed Container
+- C — VM
+
+### Chosen
+
+**B — Managed Container**
+
+### Scope
+
+```text
+HTTPS/API boundary
+        │
+        ▼
+Python managed-container service
+        │
+        ├── job queue
+        ├── bounded worker pool
+        ├── job lifecycle
+        └── snapshot/result adapter
+                    │
+             managed storage
+```
+
+### Reason
+
+- jobهای طولانی SVI، GARCH و Surface به محیط پایدار نیاز دارند؛
+- dependencyهای Python و native numerical libraries قابل pin کردن هستند؛
+- Worker pool، hard timeout، cancel و SSE/event stream قابل‌کنترل می‌مانند؛
+- محیط local و cloud قابل parity و versioning است؛
+- scale افقی بدون حذف instrument یا کاهش accuracy ممکن است؛
+- Alpha به Kubernetes الزام ندارد؛ managed container ساده‌تر از orchestration کامل است؛
+- VM مسئولیت patching، security و availability بیشتری بر پروژه تحمیل می‌کند؛
+- Serverless برای auxiliary یا jobهای کوتاه آینده قابل بررسی است، اما executor اصلی D3 در Alpha نیست.
+
+### Fixed boundaries
+
+- cloud حق scrape مستقل TSETMC را ندارد؛
+- snapshot از client یا منبعی می‌آید که مستقل و مجاز تأیید شده باشد؛
+- managed container نباید network policy acquisition را دور بزند؛
+- حذف instrument، approximate substitution و stale-as-fresh ممنوع است؛
+- storage و job state باید snapshot/config/model version را نگه دارند.
+
+### Still open
+
+این تصمیم موارد زیر را انتخاب نمی‌کند:
+
+- cloud provider؛
+- container runtime و image registry؛
+- managed storage product؛
+- authentication و authorization implementation؛
+- data residency، retention و deletion policy؛
+- D3 transport concrete و event-stream implementation؛
+- topology جزئی scaling و availability.
