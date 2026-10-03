@@ -2,6 +2,8 @@
 
 **وضعیت: ALPHA — برای بازبینی و تأیید مالک؛ canonical نیست و مجوز shipping یا تولید کد محصول نیست.**
 
+**برچسب بررسی:** این سند candidate برای successor هدف `v6.0` است؛ تا بسته‌شدن gateها و تأیید نهایی، عنوان رسمی آن همچنان `Architecture Contract Alpha` باقی می‌ماند و این برچسب نسخهٔ نهایی را زودتر تعیین نمی‌کند.
+
 این سند فقط تصمیم‌ها و اصلاحاتی را که در بازبینی مالک پذیرفته شده‌اند ثبت می‌کند. انتخاب‌های حل‌نشده در بخش «تصمیم‌های باقی‌مانده» می‌آیند و نباید به‌عنوان default، واقعیت پلتفرم یا مصوبهٔ معماری تفسیر شوند.
 
 مبنای پلتفرم و محدودیت‌های Artifact A، قرارداد canonical v5.0 در commit زیر است:
@@ -53,6 +55,46 @@
 - هر ادعای جدید دربارهٔ `mw.AllRows`، `mw.FilterCode` یا `mw.SaveParams` فقط پس از ثبت evidence مربوط.
 
 نبودن یک fixture در sandbox، evidence مالک را خودکار رد نمی‌کند؛ اما provenance `owner-observed` با `contract-verified` یکی نیست.
+
+### ۱.۴ مؤلف، lineage و حقوق قانونی
+
+این Alpha نام و lineage اصلی موجود در artifactهای پروژه را جایگزین یا حذف نمی‌کند. اطلاعات قانونی inherited از سربرگ و LEGAL module موجود در نسخه‌های پروژه است:
+
+- **مؤلف اصلی:** `https://t.me/p75ad`
+- **گروه پروژه:** `https://t.me/SmartOptionTSE`
+- **lineage:** `tseOptionZharfa` به‌عنوان fork از `tseOption_ExoticFilter v0.0.4.6`؛ هر fork باید lineage upstream را آشکار نگه دارد.
+- **مجوز:** `Smart-FFA-1.0 (Free Fork with Attribution)`
+- **کپی‌رایت:** `© ۱۴۰۵ — حقوق مؤلف محفوظ است`
+
+حقوق اعلام‌شدهٔ مجوز inherited:
+
+- برداشتن، بازنویسی، گسترش و انتشار نسخهٔ مستقل آزاد است؛
+- شرط attribution این است که سربرگ fork نام و نشانی مؤلف اصلی را دست‌نخورده نگه دارد؛
+- attribution، شناسهٔ مجوز و lineage نباید حذف، پنهان، جایگزین یا تحریف شوند؛
+- fork می‌تواند author و version خود را اضافه کند، اما نمی‌تواند آن‌ها را جایگزین attribution upstream کند.
+
+**رفع مسئولیت قانونی/محصولی:**
+
+> این ابزار صرفاً تحلیلی و اطلاعاتی است؛ تضمین سود نمی‌دهد و مسئولیت هر تصمیم و معامله تنها بر عهده کاربر است.
+
+`fullNotice` inherited که باید در legal module حفظ شود:
+
+```text
+tseOptionZharfa
+مؤلف اصلی: https://t.me/p75ad
+گروه پروژه: https://t.me/SmartOptionTSE
+مجوز: Smart-FFA-1.0 (Free Fork with Attribution)
+© ۱۴۰۵ — حقوق مؤلف محفوظ است
+این ابزار صرفاً تحلیلی و اطلاعاتی است؛ تضمین سود نمی‌دهد و مسئولیت هر تصمیم و معامله تنها بر عهده کاربر است.
+```
+
+قواعد delivery حقوقی:
+
+- source متن فارسی را به‌صورت UTF-8 قابل ویرایش نگه می‌دارد؛
+- min representation همهٔ نویسه‌های non-ASCII را به Unicode escape تبدیل می‌کند؛
+- legal source/min parity اجباری است؛
+- legal notice باید در footer پنل و سطوح هشدار/تأیید لازم حاضر باشد؛
+- این بخش attribution و disclaimer inherited را ثبت می‌کند و ادعای حقوقی گسترده‌تر از متن مجوز ایجاد نمی‌کند.
 
 ---
 

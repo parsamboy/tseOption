@@ -47,3 +47,11 @@
 در این Alpha، قالب ledger ثبت شده است. برای `mw.AllRows`، `mw.FilterCode`، `mw.SaveParams`، option label، option-chain و calendar هنوز ردیف contract-verified جدیدی بدون capture/probe معتبر اضافه نشده است.
 
 Baselineهای canonical v5.0 باید با commit و clause مربوط ثبت شوند؛ این فایل جایگزین متن canonical v5.0 نیست.
+
+### LEGAL-001 — inherited author and legal notice
+
+- `level`: contract/project baseline
+- `source`: existing project artifact header and `LEGAL` module in `tseOptionZharfa-v0.0.4.1.source.js`
+- `claim`: original author link, project group, Smart-FFA-1.0 attribution, copyright line and disclaimer must remain intact in a fork
+- `scope`: attribution/lineage and notice preservation; this entry does not expand the license grant
+- `status`: recorded for Alpha review
