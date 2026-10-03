@@ -224,3 +224,55 @@ Python managed-container service
 ### Reason
 
 افزودن D1/D2/D3، transport D2، چند executor، canonical parity، projection دقیق و policyهای network/data-transfer تغییر معماری محسوب می‌شود و از یک patch افزایشی v5.1 بزرگ‌تر است.
+
+## D-2026-10-03-005: Dependency/Gate-Driven Contract and Implementation Order
+
+- **Class:** B — contract/process architecture
+- **Date:** 2026-10-03
+- **Version:** Architecture Contract Alpha
+- **Decision maker:** مالک پروژه
+- **Status:** accepted for Alpha process
+
+### Decision
+
+گزینهٔ dependency/gate-driven به‌عنوان ترتیب رسمی انتخاب شد. ترتیب متنی ساده و feature-first مبنا قرار نمی‌گیرند.
+
+### Required refinements
+
+1. مرحلهٔ ۱ به دو بخش تقسیم می‌شود:
+   - **۱.الف — Governance پایه:** ساختار `DECISIONS.md`، `PENDING.md` و evidence ledger، سطوح ادعا، Artifact A/B، D1/D2/D3 و Alpha بدون شماره؛
+   - **۱.ب — تصمیم‌های بنیادین:** تصمیم‌های Class B پیش از شروع طراحی وابسته؛ تصمیم‌های transport، runtime mapping، D3 topology و version policy اکنون ثبت شده‌اند؛ Alpha scope هنوز باید صریحاً تعیین شود.
+2. Data و Transport به‌صورت co-design پیش می‌روند:
+   - شاخهٔ Data: PART K/R، page-memory evidence، fixture و source gates؛
+   - شاخهٔ Transport: PART T/U، message schema و lifecycle؛
+   - نقطهٔ تلاقی: canonical snapshot/message schema و network boundary.
+3. Parity یک gate یک‌باره نیست؛ با هر مدل از اولین مدل به‌صورت پیوسته اجرا می‌شود.
+4. No-fabrication test از اولین مدل آغاز می‌شود و همراه هر مدل توسعه می‌یابد.
+5. chain، calendar، OI و multiplier gateهای مستقل‌اند و می‌توانند پس از آماده‌شدن governance به‌صورت موازی validation شوند.
+6. PART N به زیرمرحله‌های وابسته به داده شکسته می‌شود: Greeks/IV، GARCH، Spread، SVI، GEX/DEX، Flow و Surface.
+7. `V5_CLEANUP.md` ثبت اصلاحات لازم v5.0 است و v5.0 را بی‌صدا تغییر نمی‌دهد.
+8. Alpha scope به‌عنوان تصمیم جداگانه و صریح باقی می‌ماند؛ فهرست in/out پیشنهادی تا تأیید مالک، scope مصوب یا reduction محصول محسوب نمی‌شود.
+
+### Compressed gate order
+
+```text
+1  Governance پایه
+2  تصمیم‌های بنیادین
+3  mw.AllRows evidence + fixture
+4  option/universe/parser evidence + fixture
+5  snapshot + canonical computation
+6  اولین مدل + parity + no-fabrication
+7  chain source
+8  calendar source
+9  OI source
+10 multiplier source
+11 سایر مدل‌ها با parity و no-fabrication
+12 exact A projection + capacity
+13 bridge confirmation
+14 source/min/release tests
+15 owner approval و target v6.0
+```
+
+### Revisit condition
+
+اگر یک dependency جدید بر semantics یا source اثر بگذارد، فقط همان مرحله بازبینی نمی‌شود؛ gateهای downstream که به آن وابسته‌اند نیز دوباره ارزیابی می‌شوند.

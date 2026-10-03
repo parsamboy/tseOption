@@ -635,4 +635,118 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 ---
 
+## ۲۰. ترتیب قرارداد و gateها — Dependency/Gate-Driven
+
+این بخش ترتیب قرارداد و validation را dependency-driven تعریف می‌کند. این ترتیب با ترتیب متنی PARTها یا feature-first یکی نیست.
+
+### V.1 مرحلهٔ ۱.الف — Governance پایه
+
+این مرحله فقط ساختار پایه را تثبیت می‌کند:
+
+- سه سطح ادعا؛
+- ساختار `DECISIONS.md`؛
+- ساختار `PENDING.md`؛
+- ساختار `EVIDENCE_LEDGER.md`؛
+- ساختار `V5_CLEANUP.md`؛
+- Artifact A و Artifact B؛
+- D1، D2 و D3؛
+- Alpha بدون شماره.
+
+این مرحله ادعای جدید platform را تأیید نمی‌کند.
+
+### V.2 مرحلهٔ ۱.ب — تصمیم‌های بنیادین
+
+تصمیم‌های transport D2، runtime mapping، D3 topology، version policy و gate order در `DECISIONS.md` ثبت شده‌اند. دامنهٔ دقیق قابلیت‌های Alpha همچنان باید به‌صورت جداگانه و صریح تعیین شود؛ فهرست in/out پیشنهادی بدون تأیید مالک مصوبه نیست.
+
+### V.3 مرحلهٔ ۲+۳ — Data و Transport به‌صورت co-design
+
+دو شاخه پس از governance می‌توانند موازی طراحی شوند:
+
+#### شاخهٔ Data
+
+- PART K: endpoint، freshness، timeout، provenance و scheduler؛
+- PART R: `mw.AllRows`، scope، schema و universe؛
+- evidence و fixture مربوط به page memory؛
+- option label و option-to-underlying parser؛
+- sourceهای chain، calendar، OI و multiplier.
+
+#### شاخهٔ Transport
+
+- PART T: D1، D2 و D3؛
+- PART U: Page ↔ Worker، Page ↔ Local Service و Page ↔ Cloud؛
+- message schema؛
+- job lifecycle، snapshot immutability، cancel، replay و error taxonomy؛
+- network boundary.
+
+نقطهٔ تلاقی دو شاخه، canonical snapshot/message schema است. هیچ شاخه‌ای بدون توافق این schema به implementation نهایی نمی‌رسد.
+
+### V.4 مرحلهٔ ۴ — Snapshot و canonical computation
+
+- schema نسخه‌دار؛
+- canonical serialization؛
+- timezone، rounding و decimal policy؛
+- missing/unknown semantics؛
+- model version؛
+- snapshot identity و data age.
+
+### V.5 مرحلهٔ ۵.الف — اولین مدل
+
+اولین مدل باید هم‌زمان این سه خروجی را داشته باشد:
+
+- implementation؛
+- parity test بین executorهای موجود؛
+- no-fabrication test با fixture ناقص.
+
+Parity و no-fabrication از این مرحله به بعد gateهای پیوسته‌اند، نه تست‌هایی که فقط در انتهای release اجرا شوند.
+
+### V.6 مرحلهٔ ۵.ب تا ۵.ز — مدل‌های مستقل
+
+مدل‌ها بر اساس dependency خود به زیرمرحله‌های مستقل تقسیم می‌شوند:
+
+- ۵.ب — Greeks و IV؛
+- ۵.ج — GARCH؛
+- ۵.د — Spread؛
+- ۵.ه — SVI؛
+- ۵.و — GEX/DEX؛
+- ۵.ز — Flow؛
+- ۵.ح — Volatility Surface.
+
+هر زیرمرحله باید dependency، parity و no-fabrication test مخصوص خود را داشته باشد.
+
+### V.7 مرحلهٔ ۶ — Exact projection
+
+پس از تعریف verdict B، compiler دقیق A، capacity و cost آن بررسی می‌شوند. هیچ projectionی پیش از snapshot semantics و اولین مدل معتبر به‌عنوان verdict کامل معرفی نمی‌شود.
+
+### V.8 مرحلهٔ ۷ — Bridge
+
+Bridge پس از آماده‌شدن exact projection بررسی می‌شود، چون generated text باید پیش از apply confirmation معنای ثابت داشته باشد.
+
+### V.9 مرحلهٔ ۸ — UI، dispatcher و defaults
+
+Profile/executor indicator، freshness، apply state، dispatcher، pool policy، timeout policy، defaults و data-transfer policy در این مرحله تکمیل می‌شوند.
+
+### V.10 مرحلهٔ ۹ — Release gates
+
+ترتیب فشردهٔ gateها:
+
+```text
+1  Governance پایه
+2  تصمیم‌های بنیادین
+3  mw.AllRows evidence + fixture
+4  option/universe/parser evidence + fixture
+5  snapshot + canonical computation
+6  اولین مدل + parity + no-fabrication
+7  chain source
+8  calendar source
+9  OI source
+10 multiplier source
+11 سایر مدل‌ها با parity و no-fabrication
+12 exact A projection + capacity
+13 bridge confirmation
+14 source/min/release tests
+15 owner approval و target v6.0
+```
+
+`V5_CLEANUP.md` register اصلاحات v5.0 است و v5.0 را بی‌صدا تغییر نمی‌دهد. هر dependency جدید می‌تواند gateهای downstream وابسته را دوباره باز کند.
+
 **END OF ARCHITECTURE CONTRACT ALPHA**
