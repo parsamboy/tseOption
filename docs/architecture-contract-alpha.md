@@ -528,7 +528,7 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 - defaultهای حل‌نشده را تعیین نمی‌کند؛
 - اصل عدم جعل داده و عدم کاهش خاموش دامنه را حفظ می‌کند.
 
-پس از تکمیل پنج تصمیم Class B، successor هدف با عنوان `v6.0` شناخته می‌شود؛ با این حال انتشار یا shipping آن فقط پس از بسته‌شدن gateهای فنی و تأیید نهایی مالک مجاز است. هر کد محصول باید پس از آن، source/min، `node --check`، اسکن ۵۹ trigger، parity و الزامات PART G/H را رعایت کند.
+با ثبت پنج تصمیم Class B (`D-2026-10-03-001` تا `D-2026-10-03-005`) و پیش از بسته‌شدن دو PENDING باقی‌مانده، successor هدف با عنوان `v6.0` شناخته می‌شود؛ با این حال انتشار یا shipping آن فقط پس از بسته‌شدن gateهای فنی، تعیین تکلیف دو PENDING و تأیید نهایی مالک مجاز است. هر کد محصول باید پس از آن، source/min، `node --check`، اسکن ۵۹ trigger، parity و الزامات PART G/H را رعایت کند.
 
 ## ۱۹. PART U — Transport Layer Alpha
 
@@ -744,9 +744,17 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 این بخش ترتیب قرارداد و validation را dependency-driven تعریف می‌کند. این ترتیب با ترتیب متنی PARTها یا feature-first یکی نیست.
 
-### V.1 مرحلهٔ ۱.الف — Governance پایه
+### ۲۰.۱ مرحلهٔ ۱.الف — Governance پایه
 
 این مرحله فقط ساختار پایه را تثبیت می‌کند:
+
+شرط وجودی پیش از canonical شدن successor:
+
+- `DECISIONS.md` باید در repository ایجاد و شامل ورودی‌های `D-2026-10-03-001` تا `D-2026-10-03-005` باشد؛
+- `PENDING.md` باید در repository ایجاد و شامل `P-DEC-001` و `P-DEC-002` باشد؛
+- `V5_CLEANUP.md` باید در repository ایجاد و register کامل cleanup را نگه دارد؛
+- `EVIDENCE_LEDGER.md` باید قالب و provenance evidence را نگه دارد؛
+- تا وجود فیزیکی و نسخه‌دار این فایل‌ها، v6.0 canonical محسوب نمی‌شود.
 
 - سه سطح ادعا؛
 - ساختار `DECISIONS.md`؛
@@ -759,11 +767,11 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 این مرحله ادعای جدید platform را تأیید نمی‌کند.
 
-### V.2 مرحلهٔ ۱.ب — تصمیم‌های بنیادین
+### ۲۰.۲ مرحلهٔ ۱.ب — تصمیم‌های بنیادین
 
 تصمیم‌های transport D2، runtime mapping، D3 topology، version policy و gate order در `DECISIONS.md` ثبت شده‌اند. دامنهٔ دقیق قابلیت‌های Alpha همچنان باید به‌صورت جداگانه و صریح تعیین شود؛ فهرست in/out پیشنهادی بدون تأیید مالک مصوبه نیست.
 
-### V.3 مرحلهٔ ۲+۳ — Data و Transport به‌صورت co-design
+### ۲۰.۳ مرحلهٔ ۲+۳ — Data و Transport به‌صورت co-design
 
 دو شاخه پس از governance می‌توانند موازی طراحی شوند:
 
@@ -785,7 +793,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 نقطهٔ تلاقی دو شاخه، canonical snapshot/message schema است. هیچ شاخه‌ای بدون توافق این schema به implementation نهایی نمی‌رسد.
 
-### V.4 مرحلهٔ ۴ — Snapshot و canonical computation
+### ۲۰.۴ مرحلهٔ ۴ — Snapshot و canonical computation
 
 - schema نسخه‌دار؛
 - canonical serialization؛
@@ -794,7 +802,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 - model version؛
 - snapshot identity و data age.
 
-### V.5 مرحلهٔ ۵.الف — اولین مدل
+### ۲۰.۵ مرحلهٔ ۵.الف — اولین مدل
 
 اولین مدل باید هم‌زمان این سه خروجی را داشته باشد:
 
@@ -804,7 +812,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 Parity و no-fabrication از این مرحله به بعد gateهای پیوسته‌اند، نه تست‌هایی که فقط در انتهای release اجرا شوند.
 
-### V.6 مرحلهٔ ۵.ب تا ۵.ز — مدل‌های مستقل
+### ۲۰.۶ مرحلهٔ ۵.ب تا ۵.ز — مدل‌های مستقل
 
 مدل‌ها بر اساس dependency خود به زیرمرحله‌های مستقل تقسیم می‌شوند:
 
@@ -818,19 +826,19 @@ Parity و no-fabrication از این مرحله به بعد gateهای پیوس�
 
 هر زیرمرحله باید dependency، parity و no-fabrication test مخصوص خود را داشته باشد.
 
-### V.7 مرحلهٔ ۶ — Exact projection
+### ۲۰.۷ مرحلهٔ ۶ — Exact projection
 
 پس از تعریف verdict B، compiler دقیق A، capacity و cost آن بررسی می‌شوند. هیچ projectionی پیش از snapshot semantics و اولین مدل معتبر به‌عنوان verdict کامل معرفی نمی‌شود.
 
-### V.8 مرحلهٔ ۷ — Bridge
+### ۲۰.۸ مرحلهٔ ۷ — Bridge
 
 Bridge پس از آماده‌شدن exact projection بررسی می‌شود، چون generated text باید پیش از apply confirmation معنای ثابت داشته باشد.
 
-### V.9 مرحلهٔ ۸ — UI، dispatcher و defaults
+### ۲۰.۹ مرحلهٔ ۸ — UI، dispatcher و defaults
 
 Profile/executor indicator، freshness، apply state، dispatcher، pool policy، timeout policy، defaults و data-transfer policy در این مرحله تکمیل می‌شوند.
 
-### V.10 مرحلهٔ ۹ — Release gates
+### ۲۰.۱۰ مرحلهٔ ۹ — Release gates
 
 ترتیب فشردهٔ gateها:
 
