@@ -193,8 +193,10 @@ D2 مسیر اجرای محلی با service روی دستگاه کاربر اس
 - local service نباید محدودیت TSETMC را دور بزند؛
 - داده تا حد امکان روی دستگاه کاربر می‌ماند؛
 - انتقال به cloud فقط با انتخاب صریح کاربر مجاز است؛
-- زبان service، transport، authentication، storage engine و protocol در این نسخه انتخاب نشده‌اند؛
-- transport D2 باید در لایهٔ جداگانه تعریف شود و به‌عنوان network surface جدید با v5.0 قاطی نشود.
+- transport D2 در Alpha به‌صورت **HTTP/JSON control plane + SSE برای progress و eventهای طولانی** انتخاب شده است؛
+- transport D2 یک network surface جدا از acquisition TSETMC است و فقط job، snapshot، result و event مربوط به همان job را منتقل می‌کند؛
+- زبان service، پورت concrete، authentication implementation، storage engine و جزئیات cloud هنوز انتخاب نشده‌اند؛
+- جزئیات الزامی lifecycle، snapshot، cancel، replay، error taxonomy و Origin در PART U و `DECISIONS.md` ثبت شده‌اند.
 
 ---
 
@@ -368,19 +370,18 @@ Compute Dispatcher فقط در Artifact B قرار می‌گیرد و هرگز �
 - نباید network policy deployment جاری را دور بزند؛
 - شکست ظرفیت باید گزارش شود، نه پنهان.
 
-جزئیات انتخاب executor، زبان service، protocol و cloud topology هنوز تصمیم نهایی نیستند.
+جزئیات انتخاب executor، زبان service، پورت concrete، authentication implementation و cloud topology هنوز تصمیم نهایی نیستند؛ transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده است.
 
 ---
 
 ## ۱۶. تصمیم‌های باقی‌مانده برای تأیید مالک
 
-این بخش فقط مواردی را نگه می‌دارد که نیازمند انتخاب/تأیید صریح هستند:
+این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده و دیگر در این فهرست باز نیست:
 
 1. زبان service محلی D2؛
-2. protocol/transport محلی D2؛
-3. معماری D3: Serverless، Container، VM یا گزینهٔ دیگر؛
-4. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
-5. ترتیب نهایی افزودن PARTها و gateها.
+2. معماری D3: Serverless، Container، VM یا گزینهٔ دیگر؛
+3. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
+4. ترتیب نهایی افزودن PARTها و gateها.
 
 هیچ‌کدام از این گزینه‌ها در این Alpha default نیستند.
 
@@ -425,5 +426,201 @@ Compute Dispatcher فقط در Artifact B قرار می‌گیرد و هرگز �
 - اصل عدم جعل داده و عدم کاهش خاموش دامنه را حفظ می‌کند.
 
 پس از تأیید موارد باقی‌مانده و بسته‌شدن gateهای فنی، successor رسمی با شماره‌ای که مالک تعیین می‌کند نوشته می‌شود. هر کد محصول باید پس از آن، source/min، `node --check`، اسکن ۵۹ trigger، parity و الزامات PART G/H را رعایت کند.
+
+## ۱۹. PART U — Transport Layer Alpha
+
+PART U سه سطح مستقل را تعریف می‌کند. این سه سطح نباید در implementation یا trace با یکدیگر اشتباه شوند:
+
+```text
+Page ↔ Worker          postMessage؛ داخلی مرورگر و مربوط به D1
+Page ↔ Local Service   HTTP/JSON + SSE؛ مربوط به D2 در Alpha
+Page ↔ Cloud           مربوط به D3؛ در Alpha انتخاب نشده
+```
+
+### U.1 سطح اول — Page ↔ Worker
+
+- این سطح transport داخلی D1 است؛
+- از `postMessage` با message schema نسخه‌دار استفاده می‌کند؛
+- به local service یا cloud نیاز ندارد؛
+- `snapshotId`، `configHash`، `jobId` و version باید همراه پیام باشند؛
+- Worker مستقیماً به DOM، `window.mw` یا `localStorage` دسترسی ندارد؛
+- main-thread adapter مالک دسترسی page و storage adapter است؛
+- failure و timeout Worker باید به main thread گزارش شود و به‌عنوان موفقیت کامل تفسیر نشود.
+
+### U.2 سطح دوم — Page ↔ Local Service در D2
+
+Transport انتخاب‌شده برای Alpha:
+
+```text
+HTTP/JSON control plane + SSE progress/event stream
+```
+
+HTTP/JSON برای عملیات زیر استفاده می‌شود:
+
+- submit job؛
+- دریافت status؛
+- دریافت result؛
+- درخواست cancel؛
+- انتقال snapshot یا reference معتبر به snapshot؛
+- دریافت diagnostics و error detail.
+
+SSE برای موارد زیر استفاده می‌شود:
+
+- progress؛
+- state transition؛
+- completion؛
+- failure؛
+- cancellation؛
+- timeout؛
+- eventهای قابل replay.
+
+WebSocket در transport پایهٔ Alpha نیست. افزودن آن فقط در صورت تبدیل‌شدن bidirectional low-latency streaming به نیاز سخت و پس از تصمیم جدید مجاز است.
+
+### U.3 مرز و امنیت D2
+
+- local service نباید روی interface خارجی bind شود؛
+- endpoint browser-facing در کد hardcode نمی‌شود؛
+- endpoint از config معتبر می‌آید؛
+- D1 مقدار local endpoint ندارد؛
+- D2 endpoint محلی خود را از config می‌گیرد؛
+- origin درخواست باید بررسی شود؛
+- production origin و dev origin باید allowlist جدا داشته باشند؛
+- origin ناشناخته یا فاقد policy رد می‌شود؛
+- session token تصادفی و کوتاه‌عمر لازم است؛
+- raw credential نباید در message حمل شود؛
+- transport D2 فقط job، snapshot، result و event همان job را منتقل می‌کند؛
+- local service حق استفاده از endpoint غیرمجاز TSETMC، Loader.aspx، bypass یا تغییر globalهای TSETMC را ندارد؛
+- این transport policy جایگزین network policy acquisition نمی‌شود.
+
+### U.4 Message envelope
+
+هر پیام D2 باید envelope نسخه‌دار داشته باشد و در صورت ارتباط jobمحور، این شناسه‌ها را حمل کند:
+
+```text
+schemaVersion
+messageType
+requestId
+jobId
+snapshotId
+configHash
+sequence
+createdAt
+payload
+```
+
+وجود payload بدون schema version یا بدون هویت snapshot برای job قابل قبول نیست.
+
+Retry باید idempotent باشد. دریافت دوبارهٔ یک `requestId` نباید باعث اجرای دوبارهٔ ناخواستهٔ job شود.
+
+### U.5 Job lifecycle
+
+هر job دقیقاً یکی از stateهای اصلی زیر را دارد:
+
+```text
+queued → running → done
+                 → failed
+                 → cancelled
+                 → timed-out
+```
+
+قواعد:
+
+- `queued` هنوز اجرا نشده است؛
+- `running` منابع اجرایی گرفته است؛
+- `done` فقط برای نتیجهٔ کامل و معتبر است؛
+- `failed` شامل دلیل و طبقهٔ خطا است؛
+- `cancelled` با درخواست cancel ایجاد می‌شود؛
+- `timed-out` به‌صراحت از `failed` عادی جدا می‌شود؛
+- transition نامعتبر باید رد و trace شود؛
+- job نباید هم‌زمان دو state نهایی داشته باشد.
+
+### U.6 Snapshot immutability
+
+هر job دقیقاً به یک `snapshotId` و `configHash` متصل است.
+
+- snapshot در طول job mutation نمی‌شود؛
+- ورود دادهٔ جدید snapshot جدید می‌سازد؛
+- دادهٔ جدید job جاری را بی‌صدا تغییر نمی‌دهد؛
+- result باید `snapshotId`، `configHash`، model version و زمان تولید را حمل کند؛
+- نتیجه‌ای که snapshot آن با درخواست ناسازگار است، eligible برای مصرف نیست.
+
+### U.7 Cancel semantics
+
+- cancel idempotent است؛
+- cancel دوباره خطای destructive ایجاد نمی‌کند؛
+- cancel باید slot و منابع job را آزاد کند؛
+- cancel نتیجهٔ partial را کامل اعلام نمی‌کند؛
+- نتیجهٔ partial، اگر تولید شود، باید `partial: true` و `reason: cancelled` داشته باشد؛
+- cancel داده را از pool یا snapshot store حذف نمی‌کند؛
+- retry کردن cancel‌شده فقط با job جدید و شناسهٔ جدید مجاز است.
+
+### U.8 SSE reconnect و replay
+
+- هر SSE event یک `id` یکتا و monotonic در همان stream دارد؛
+- client در reconnect مقدار `Last-Event-ID` را می‌فرستد؛
+- server eventهای بعد از آن ID را replay می‌کند؛
+- اگر replay window منقضی شده باشد، server یک `reset` event می‌فرستد؛
+- client پس از `reset` باید وضعیت snapshot/job را دوباره از control plane بخواند؛
+- progress تکراری نباید به‌عنوان اجرای دوبارهٔ job تفسیر شود.
+
+### U.9 Error taxonomy
+
+| دسته | نمونه | رفتار |
+|---|---|---|
+| `transient` | قطع موقت شبکه یا service unavailable | retry با backoff و idempotency |
+| `permanent` | snapshot نامعتبر یا schema ناسازگار | بدون retry خودکار؛ وضعیت failure |
+| `user` | پارامتر یا profile نامعتبر | بدون retry؛ بازگشت خطای قابل‌فهم به UI |
+
+هر error باید category، code، message قابل‌نمایش، `requestId` و در صورت ارتباط job، `jobId` داشته باشد.
+
+### U.10 Worker pool و timeout
+
+- اجرای هم‌زمان jobها باید محدود و قابل مشاهده باشد؛
+- job اضافی در `queued` می‌ماند مگر priority صریح وجود داشته باشد؛
+- مقدار نهایی pool size در این تصمیم انتخاب نشده است؛
+- hard timeout برای هر job الزامی است؛
+- مقدارهای پیشنهادی ۶۰ ثانیه برای job عادی و حداکثر ۳۰۰ ثانیه برای job سنگین در این Alpha به‌عنوان candidate ثبت می‌شوند، نه default نهایی؛
+- timeout باید منابع و slot را آزاد کند؛
+- timeout نباید result کامل تولید کند؛
+- تغییر timeout فقط از مسیر policy معتبر و قابل trace مجاز است.
+
+### U.11 Browser-facing URL policy
+
+- هیچ URL مربوط به local service در کد browser-facing hardcode نمی‌شود؛
+- مقدار endpoint از config می‌آید؛
+- D1 endpoint محلی ندارد؛
+- D2 endpoint محلی از config می‌آید؛
+- D3 endpoint آینده از سازوکار discovery/auth مخصوص خود می‌آید؛
+- محیط preview توسعه باید از relative URL و proxy استفاده کند، نه اتصال hardcoded به `localhost` یا `127.0.0.1`.
+
+### U.12 D3
+
+D3 در این Alpha transport انتخاب‌شده ندارد. در هر تصمیم آینده:
+
+- page ↔ cloud باید از page ↔ Worker و page ↔ local service جدا بماند؛
+- cloud نباید مستقل TSETMC را scrape کند؛
+- message schema مشترک باید حفظ شود؛
+- authentication، retention، residency، upload scope و transport باید جداگانه تصویب شوند.
+
+### U.13 Trace و observability
+
+برای هر job و transport باید حداقل این رخدادها قابل ردیابی باشند:
+
+- submit؛
+- accepted/queued؛
+- running؛
+- progress؛
+- reconnect؛
+- retry؛
+- cancel؛
+- done؛
+- failed؛
+- timed-out؛
+- reset؛
+- result consumed یا rejected به‌دلیل mismatch snapshot.
+
+**PART U در این Alpha فقط transport D2 را قطعی می‌کند؛ زبان service، پورت concrete، cloud transport و hard-timeout/pool defaults هنوز تصمیم نهایی نیستند.**
+
+---
 
 **END OF ARCHITECTURE CONTRACT ALPHA**
