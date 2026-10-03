@@ -27,6 +27,20 @@
 
 این فهرست فقط زمانی قابل ثبت است که مالک صریحاً آن را به‌عنوان **phased release scope** بپذیرد. حذف این قابلیت‌ها از Alpha نباید به‌عنوان حل محدودیت فنی یا کاهش دائمی دامنهٔ محصول معرفی شود. تا آن زمان، no-simplification rule برقرار است.
 
+### P-DEC-002 — privacy و data-transfer policy
+
+وضعیت: **نیازمند تصمیم Class B مالک**
+
+این policy باید مشخص کند دادهٔ بازار، profile، snapshot، result و متن filter در هر deployment چه زمانی از دستگاه خارج می‌شوند.
+
+گزینه‌های مفهومی:
+
+- D1 بدون upload به service پروژه؛ D2 local-first؛ D3 فقط با opt-in صریح؛
+- sync ابری پیش‌فرض برای بخشی از داده؛
+- local-only سخت‌گیرانه و بدون انتقال به D3.
+
+متن فعلی Alpha فقط جهت موقت `no-server-upload by design` برای D1 و رضایت صریح برای cloud را ثبت می‌کند؛ آن را privacy مطلق یا policy نهایی تلقی نکنید.
+
 ---
 
 ## ۲. Gateهای فنی و مستندسازی
@@ -50,6 +64,9 @@
 | G-13 | bridge confirmation | باز | authoritative state، apply/persist probe و trace |
 | G-14 | source/min/release | باز | `node --check`، ۵۹ scan، parity، PART G/H و smoke |
 | G-15 | owner release approval | باز | تأیید نهایی successor هدف `v6.0` |
+| G-16 | SSE fallback policy | باز | `maxAttempts`، `pollInterval`، `maxFallbackDuration` و trace |
+| G-17 | D3 authentication/discovery | باز | provider، OAuth 2.0/OIDC discovery، signature و verification policy |
+| G-18 | Alpha scope approval | باز | تعیین اینکه D3 و ماژول‌های advanced در Alpha shipping هستند یا phased |
 
 ---
 

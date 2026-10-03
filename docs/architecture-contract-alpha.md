@@ -142,7 +142,7 @@ Artifact B — پنل، داده، تحلیل، compiler و bridge
 
 در این سند عبارت «Profile A/B/C» برای deployment استفاده نمی‌شود.
 
-D1، D2 و D3 جهت محصول/معماری هستند و mapping زبان آن‌ها در تصمیم `D-2026-10-03-002` برای Alpha ثبت شده است:
+D1، D2 و D3 جهت محصول/معماری هستند و mapping زبان آن‌ها به‌عنوان تصمیم مالک برای جهت Alpha در `D-2026-10-03-002` ثبت شده است؛ implementation و parity آن همچنان gate دارد:
 
 ```text
 D1 = Browser JavaScript + Web Worker
@@ -223,8 +223,9 @@ Web Worker مستقیماً به DOM، `window.mw`، `mw.AllRows` یا `localSto
 
 ### ۶.۲ storage و privacy
 
-- `localStorage` در main thread قابل استفاده است؛
-- Worker برای storage مستقیم باید از سازوکار مناسب مانند IndexedDB یا پیام به storage adapter استفاده کند؛
+- IndexedDB storage پایدار canonical D1 در Alpha است و main thread/Worker از storage adapter نسخه‌دار استفاده می‌کنند؛
+- `localStorage` برای snapshot، job و result جدید storage canonical نیست؛ فقط compatibility/metadata محدود، در صورت ثبت adapter، مجاز است؛
+- Worker مستقیماً به DOM یا `window.mw` دسترسی ندارد و storage از مسیر IndexedDB/adapter انجام می‌شود؛
 - D1 به‌صورت پیش‌فرض به service پروژه یا cloud upload ندارد؛
 - claim قابل قبول برای D1 عبارت است از **no-server-upload by design**؛
 - privacy مطلق تضمین نمی‌شود، زیرا متن filter، شناسه‌های eligible، thresholdها و page state ممکن است برای TSETMC یا scriptهای دارای دسترسی صفحه قابل مشاهده باشند.
@@ -245,7 +246,7 @@ D2 مسیر اجرای محلی با service روی دستگاه کاربر اس
 - local service نباید محدودیت TSETMC را دور بزند؛
 - داده تا حد امکان روی دستگاه کاربر می‌ماند؛
 - انتقال به cloud فقط با انتخاب صریح کاربر مجاز است؛
-- transport D2 در Alpha به‌صورت **HTTP/JSON control plane + SSE برای progress و eventهای طولانی** انتخاب شده است؛
+- transport D2 در Alpha به‌صورت **HTTP/JSON control plane + SSE برای progress و eventهای طولانی** طبق `D-2026-10-03-001` انتخاب شده است؛
 - transport D2 یک network surface جدا از acquisition TSETMC است و فقط job، snapshot، result و event مربوط به همان job را منتقل می‌کند؛
 - زبان service D2 برای Alpha، Node.js LTS است؛
 - پورت concrete، authentication implementation، storage engine و جزئیات packaging هنوز انتخاب نشده‌اند؛
@@ -260,14 +261,16 @@ D3 مسیر اجرای ابری است.
 اصول تأییدشدهٔ D3:
 
 - executor/service ابری D3 در Alpha با Python mapping می‌شود؛
-- topology اصلی D3 در Alpha، Managed Container است؛
+- topology اصلی D3 در Alpha، Managed Container طبق `D-2026-10-03-003` است؛
 - معماری مفهومی شامل API boundary، Python service، job queue، bounded worker pool و managed storage است؛
 - Alpha به Kubernetes الزام ندارد؛
 - cloud نباید مستقل و خودسرانه TSETMC را scrape کند؛
 - cloud snapshot ارسالی client یا منبعی را مصرف می‌کند که مستقل و مجاز تأیید شده باشد؛
 - انتقال دادهٔ بازار، profile و filter با رضایت و policy روشن انجام می‌شود؛
 - data residency، retention، deletion، authentication، packaging و cloud provider هنوز نهایی نشده‌اند؛
-- parity با D1 و D2 باید با canonical fixture و test اثبات شود.
+- در صورت فعال‌شدن authentication ابری، discovery باید بر مبنای استاندارد OAuth 2.0/OIDC یا سازوکار معادلِ ثبت‌شده باشد؛ provider و جزئیات implementation هنوز انتخاب نشده‌اند؛
+- parity با D1 و D2 باید با canonical fixture و test اثبات شود؛
+- D3 در Alpha در سطح architecture/design ثبت شده و shipping آن به `P-DEC-001` و gateهای مربوط وابسته است.
 
 ---
 
@@ -336,6 +339,18 @@ U_snapshot = تمام رکوردهای واقعاً موجود در snapshot م�
 
 این ماژول‌ها نباید با دادهٔ ساختگی، multiplier حدسی یا relation حدسی فعال شوند.
 
+### ۱۱.۱ وضعیت نمایش ماژول
+
+ماژول به‌دلیل کمبود داده یا خطا از UI ناپدید نمی‌شود. وضعیت آن باید یکی از این حالت‌ها باشد:
+
+- `fresh` — داده معتبر و نتیجهٔ کامل؛
+- `stale` — داده کهنه و نتیجه با برچسب سن/تاریخ؛
+- `unknown` — داده یا provenance کافی نیست و نتیجهٔ تحلیلی صادر نمی‌شود؛
+- `insufficient-data` — دادهٔ شناخته‌شده برای محاسبه کافی نیست و دلیل نمایش داده می‌شود؛
+- `error` — اجرای ماژول شکست خورده و کد/شرح خطا ثبت می‌شود.
+
+`unknown`، `insufficient-data` و `error` نباید به‌صورت eligible، صفر، مقدار خنثی یا نتیجهٔ کامل تفسیر شوند. وضعیت و دلیل باید در پنل، trace و snapshot خروجی قابل مشاهده باشد.
+
 ---
 
 ## ۱۲. Exact projection از B به A
@@ -352,6 +367,20 @@ projection دقیق باید به‌صورت صریح یکی از این دو ب
 2. predicate ردیفی دقیق که جزئی از verdict رسمی B و همان snapshot است.
 
 ترکیب مبهم membership با threshold زنده مجاز نیست.
+
+**تعریف predicate ردیفی دقیق:**
+
+- تابعی deterministic است که از verdict رسمی B در snapshot `k` مشتق شده باشد؛
+- دامنهٔ ورودی، field mapping و missing/unknown policy آن با B یکسان باشد؛
+- اگر B verdict خود را به‌صورت شرطی روی row تعریف کرده باشد، همان شرط نسخه‌دار و کامل می‌تواند در A صادر شود؛
+- اگر verdict B به دادهٔ cross-row، chain، profile یا تحلیل عمیق وابسته باشد، باید نتیجهٔ دقیق آن به projection مناسب مانند مجموعهٔ شناسه‌های `E_k` تبدیل شود؛
+- threshold عمومی یا جدیدی که B آن را در verdict خود اعمال نکرده است، predicate دقیق محسوب نمی‌شود.
+
+**تفاوت با scalar-only fallback:**
+
+- predicate دقیق، بخشی از تعریف رسمی verdict B برای snapshot مشخص است؛
+- scalar fallback یک شرط عمومی مستقل است که ممکن است ردیف‌هایی را عبور دهد که B رد کرده یا ردیف‌های واجدشرایط را حذف کند؛
+- هیچ approximation یا شرط مستقل نباید با نام exact projection عرضه شود.
 
 قواعد ثابت:
 
@@ -385,6 +414,8 @@ error
 
 `applied-confirmed` فقط پس از تعیین authoritative page state و probe معتبر صادر می‌شود. نوشتن در textarea، تغییر row count یا return value ناشناخته به‌تنهایی confirmation نیست.
 
+`persisted-confirmed` سطحی بالاتر از `applied-confirmed` است و فقط وقتی صادر می‌شود که پس از apply، در یک snapshot بعدی صفحه یا پس از reload/navigation مجاز، متن یا state canonical متناظر با همان `compiledTextHash`/normalized hash باقی‌مانده مشاهده شود. اگر persistence probe انجام نشده یا page state مرجع قطعی ندارد، وضعیت حداکثر `applied-confirmed` است و نباید `persisted-confirmed` صادر شود.
+
 manual mode نباید به‌صورت خاموش fallback شود. اگر مسیر خودکار شکست خورد، وضعیت باید error یا unconfirmed باقی بماند و جزئیات trace شود.
 
 ---
@@ -411,6 +442,15 @@ manual mode نباید به‌صورت خاموش fallback شود. اگر مسی
 
 `mw.AllRows` کاهش fetch برای bulk را ممکن می‌کند، اما به‌تنهایی trade-off کل داده‌های عمیق را حل‌شده اعلام نمی‌کند.
 
+### ۱۴.۳ رفتار scheduler در ساعات بازار
+
+- در ساعات بازار، polling و refresh طبق freshness policy مصوب و data-source contract اجرا می‌شود؛
+- در ساعات خارج از بازار، polling خودکار متوقف می‌شود، مگر اینکه کاربر درخواست صریح یا policy جداگانهٔ مصوب داشته باشد؛
+- تشخیص ساعات بازار از calendar/session policy معتبر می‌آید، نه صرفاً از ساعت سیستم؛
+- اولین refresh در جلسهٔ بعدی باید snapshot تازه با `observedAt` جدید بسازد؛
+- stop شدن polling خارج از بازار به معنی حذف instrument یا پاک‌کردن pool نیست؛
+- retryهای transport محلی job، از polling دادهٔ TSETMC جدا هستند و این قاعده آن‌ها را بی‌صدا متوقف نمی‌کند.
+
 ---
 
 ## ۱۵. Compute Dispatcher
@@ -433,11 +473,20 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 
 ## ۱۶. تصمیم‌های باقی‌مانده برای تأیید مالک
 
-این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport D2، mapping زبان‌ها، topology اصلی D3 و policy نسخه در تصمیم‌های `D-2026-10-03-001` تا `D-2026-10-03-004` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
+این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. تصمیم‌های زیر قبلاً در `DECISIONS.md` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
 
-1. ترتیب نهایی افزودن PARTها و gateها.
+- `D-2026-10-03-001` — transport D2؛
+- `D-2026-10-03-002` — mapping زبان‌های D1/D2/D3؛
+- `D-2026-10-03-003` — topology اصلی D3؛
+- `D-2026-10-03-004` — policy نسخه؛
+- `D-2026-10-03-005` — ترتیب dependency/gate-driven.
 
-سند فعلی همچنان بدون شماره و با عنوان `Architecture Contract Alpha` باقی می‌ماند. هدف successor پس از تکمیل پنج تصمیم Class B، `v6.0` است؛ این هدف هنوز مجوز shipping نیست.
+تصمیم‌های باقی‌مانده:
+
+1. دامنهٔ دقیق قابلیت‌های Alpha به‌عنوان phased release یا عدم تعیین scope محدود؛ در `PENDING.md` با شناسهٔ `P-DEC-001`؛
+2. privacy و data-transfer policy به‌عنوان تصمیم Class B؛ در `PENDING.md` با شناسهٔ `P-DEC-002`.
+
+سند فعلی همچنان بدون شماره و با عنوان `Architecture Contract Alpha` باقی می‌ماند. هدف successor پس از تکمیل تصمیم‌های Class B، `v6.0` است؛ این هدف هنوز مجوز shipping نیست.
 
 ---
 
@@ -459,8 +508,8 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 - canonical computation؛
 - parity سه executor؛
 - network boundary هر deployment؛
-- privacy و data-transfer policy؛
 - defaults و evidence ledger؛
+- جزئیات privacy و data-transfer طبق تصمیم Class B `P-DEC-002`؛
 - fixtureهای cross-language؛
 - تست‌های source/min و invariants قرارداد v5.0.
 
@@ -559,10 +608,11 @@ snapshotId
 configHash
 sequence
 createdAt
+signature      // optional for D2; required by D3 after auth policy
 payload
 ```
 
-وجود payload بدون schema version یا بدون هویت snapshot برای job قابل قبول نیست.
+وجود payload بدون schema version یا بدون هویت snapshot برای job قابل قبول نیست. D3 در صورت فعال‌شدن cloud authentication باید signature/integrity و verification policy خود را مشخص کند؛ الگوریتم concrete در این Alpha انتخاب نشده است.
 
 Retry باید idempotent باشد. دریافت دوبارهٔ یک `requestId` نباید باعث اجرای دوبارهٔ ناخواستهٔ job شود.
 
@@ -616,6 +666,19 @@ queued → running → done
 - اگر replay window منقضی شده باشد، server یک `reset` event می‌فرستد؛
 - client پس از `reset` باید وضعیت snapshot/job را دوباره از control plane بخواند؛
 - progress تکراری نباید به‌عنوان اجرای دوبارهٔ job تفسیر شود.
+
+### U.8.1 SSE failure و polling fallback
+
+SSE transport برای progress است و نباید تنها راه مشاهدهٔ state job باشد.
+
+- پس از تعداد مشخص و قابل‌پیکربندی failureهای متوالی، client وضعیت SSE را `blocked` یا `unavailable` ثبت می‌کند؛
+- client سپس به polling روی control-plane status endpoint می‌رود؛
+- polling فقط status/progress/result job را می‌خواند و جایگزین acquisition دادهٔ TSETMC نیست؛
+- `pollInterval`، `maxAttempts` و `maxFallbackDuration` باید در config نسخه‌دار و trace ثبت شوند؛
+- هر تغییر از SSE به polling در trace و UI قابل مشاهده است؛
+- اگر polling نیز در مدت policy شکست بخورد، job به‌صورت خودکار `failed` یا `timed-out` می‌شود و stale/fresh جعل نمی‌شود؛
+- retry و polling نباید باعث اجرای دوبارهٔ job یا حذف snapshot شود؛
+- مقدارهای پیشنهادی ۲ ثانیه و ۵ دقیقه در این Alpha default قطعی نیستند و در policy transport/Expert configuration باید جداگانه تأیید شوند.
 
 ### U.9 Error taxonomy
 
@@ -790,5 +853,44 @@ Profile/executor indicator، freshness، apply state، dispatcher، pool policy�
 ```
 
 `V5_CLEANUP.md` register اصلاحات v5.0 است و v5.0 را بی‌صدا تغییر نمی‌دهد. هر dependency جدید می‌تواند gateهای downstream وابسته را دوباره باز کند.
+
+## ۲۱. V5_CLEANUP_SUMMARY
+
+این فهرست خلاصهٔ موارد باز cleanup v5.0 است. شرح کامل، وضعیت و اقدام هر مورد در `V5_CLEANUP.md` نگه‌داری می‌شود. این خلاصه v5.0 را بی‌صدا تغییر نمی‌دهد.
+
+1. تعارض `A.5.4` دربارهٔ CDN reachable با `G.5.4` دربارهٔ same-origin network surface؛
+2. تعارض freshness در K.6 با Appendix E؛
+3. ابهام واحد `minVolume` و تفکیک `tvol` از `tval`؛
+4. تفکیک‌نشدن semantics و condition مربوط به `abortThresholdInput`؛
+5. نبود فرمول و missing policy صریح برای `maxStalePricePct`؛
+6. نبود فرمول و zero/missing policy صریح برای `maxImbalanceRatio`؛
+7. ابهام `poolAutoUpdate` در برابر `fetchAuto` و `storeAuto`؛
+8. تعارض timeout شش تا هشت ثانیه در K.2.2 با delay مشاهده‌شدهٔ A.5.12؛
+9. بررسی و تثبیت شماره‌گذاری A.5.10 و A.5.11؛
+10. تفکیک policyهای پروژه از platform facts در A.7/A.8؛
+11. scope و lifecycle `mw.AllRows`؛
+12. bridge authoritative state و persistence؛
+13. capacity واقعی Artifact A و allocation/lifecycle projection؛
+14. option-chain، option-to-underlying، OI و multiplier؛
+15. evidence pointer برای ادعاهای `Verified`.
+
+## ۲۲. Approval Record — خالی تا تأیید مالک
+
+```text
+Candidate: Zharfa Smart Filter Contract v6.0
+Current label: Architecture Contract Alpha
+Status: pending owner approval
+Approved by: [owner]
+Approved at: [date and timezone]
+Signature/reference: [DECISIONS.md entry or external approval reference]
+
+Approval statement:
+The owner confirms that the required Class B decisions are recorded,
+the accepted technical gates are closed or explicitly waived, the
+remaining PENDING items are understood, and this document is canonical
+as v6.0.
+```
+
+این بخش عمداً خالی است و تا تأیید واقعی مالک نباید پر شود.
 
 **END OF ARCHITECTURE CONTRACT ALPHA**

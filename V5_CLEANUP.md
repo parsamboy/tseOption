@@ -21,6 +21,15 @@
 | CL-013 | freshness دادهٔ page-memory در برابر timestamp/generation | باز | snapshot consistency و observedAt معتبر |
 | CL-014 | label option با چند numeric run و relation underlying | باز | grammar نسخه‌دار، fixture و وضعیت unknown/reported/confirmed |
 | CL-015 | defaults تحلیلی در برابر missing market observation | باز | تفکیک config default از market observation؛ unknown باقی بماند |
+| CL-016 | تعارض freshness در K.6 با مقدار Appendix E | باز | یک واحد و data-class policy نسخه‌دار |
+| CL-017 | ابهام `minVolume` و خلط `tvol` با `tval` | باز | نام، واحد و field mapping صریح |
+| CL-018 | ابهام condition و semantics `abortThresholdInput` | باز | تعریف trigger، واحد و رفتار missing |
+| CL-019 | نبود فرمول صریح `maxStalePricePct` | باز | تفکیک staleness واقعی از last-mid deviation |
+| CL-020 | نبود zero/missing policy برای `maxImbalanceRatio` | باز | تعریف نسبت، صفر و unknown |
+| CL-021 | ابهام `poolAutoUpdate` در برابر `fetchAuto` و `storeAuto` | باز | تفکیک fetch، persist و بازار/غیربازار |
+| CL-022 | تعارض timeout K.2.2 با delay مشاهده‌شدهٔ A.5.12 | باز | timeout project policy جدا از platform observation |
+| CL-023 | بررسی شماره‌گذاری A.5.10 و A.5.11 | باز | شماره یکتا و cross-reference معتبر |
+| CL-024 | قرارگرفتن policyهای پروژه در A.7/A.8 | باز | تفکیک platform fact، project policy و owner decision |
 
 ## قانون cleanup
 
