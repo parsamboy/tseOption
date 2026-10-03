@@ -205,3 +205,22 @@ Python managed-container service
 - data residency، retention و deletion policy؛
 - D3 transport concrete و event-stream implementation؛
 - topology جزئی scaling و availability.
+
+## D-2026-10-03-004: Successor Version Policy
+
+- **Class:** B — governance/versioning
+- **Date:** 2026-10-03
+- **Version:** Architecture Contract Alpha
+- **Decision maker:** مالک پروژه
+- **Status:** accepted policy for Alpha
+
+### Decision
+
+- سند فعلی تا پایان gateهای لازم بدون شماره و با عنوان `Architecture Contract Alpha` باقی می‌ماند؛
+- پس از تکمیل مجموعهٔ پنج تصمیم Class B، نام هدف successor برابر `v6.0` خواهد بود؛
+- تبدیل عنوان به successor v6.0 به‌تنهایی مجوز shipping نیست و همچنان به بسته‌شدن gateهای فنی و تأیید نهایی مالک نیاز دارد؛
+- تا آن زمان هیچ عنوان v5.1، v6.0-alpha یا شمارهٔ دیگری برای سند Alpha اعمال نمی‌شود.
+
+### Reason
+
+افزودن D1/D2/D3، transport D2، چند executor، canonical parity، projection دقیق و policyهای network/data-transfer تغییر معماری محسوب می‌شود و از یک patch افزایشی v5.1 بزرگ‌تر است.
