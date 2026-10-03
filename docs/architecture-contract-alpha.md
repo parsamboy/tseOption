@@ -100,7 +100,15 @@ Artifact B — پنل، داده، تحلیل، compiler و bridge
 
 در این سند عبارت «Profile A/B/C» برای deployment استفاده نمی‌شود.
 
-D1، D2 و D3 در این نسخه جهت محصول/معماری هستند؛ زبان سرویس، transport، cloud topology و جزئیات اجرایی آن‌ها هنوز انتخاب نهایی نشده است.
+D1، D2 و D3 جهت محصول/معماری هستند و mapping زبان آن‌ها در تصمیم `D-2026-10-03-002` برای Alpha ثبت شده است:
+
+```text
+D1 = Browser JavaScript + Web Worker
+D2 = Node.js LTS local service
+D3 = Python cloud executor/service
+```
+
+این mapping، cloud topology، packaging، libraryهای عددی یا جزئیات deployment را به‌تنهایی تعیین نمی‌کند.
 
 ---
 
@@ -115,7 +123,9 @@ D1، D2 و D3 در این نسخه جهت محصول/معماری هستند؛ �
 - `ApplyBridge`
 - `EvidenceLedger`
 
-هر deployment implementation مخصوص خود را دارد. Core مشترک نباید به DOM، `window.mw`، localStorage، localhost یا cloud API وابسته باشد.
+هر deployment implementation مخصوص خود را دارد. در Alpha، D1 با Browser JavaScript/Worker، D2 با Node.js LTS و D3 با Python mapping می‌شود؛ این mapping در `DECISIONS.md` ثبت شده است.
+
+Core مشترک نباید به DOM، `window.mw`، localStorage، localhost یا cloud API وابسته باشد.
 
 استقلال deployment به معنی یکسان‌بودن خودکار نتایج نیست. برابری نتایج فقط پس از تکمیل canonical computation و parity test قابل ادعاست.
 
@@ -195,7 +205,8 @@ D2 مسیر اجرای محلی با service روی دستگاه کاربر اس
 - انتقال به cloud فقط با انتخاب صریح کاربر مجاز است؛
 - transport D2 در Alpha به‌صورت **HTTP/JSON control plane + SSE برای progress و eventهای طولانی** انتخاب شده است؛
 - transport D2 یک network surface جدا از acquisition TSETMC است و فقط job، snapshot، result و event مربوط به همان job را منتقل می‌کند؛
-- زبان service، پورت concrete، authentication implementation، storage engine و جزئیات cloud هنوز انتخاب نشده‌اند؛
+- زبان service D2 برای Alpha، Node.js LTS است؛
+- پورت concrete، authentication implementation، storage engine و جزئیات packaging هنوز انتخاب نشده‌اند؛
 - جزئیات الزامی lifecycle، snapshot، cancel، replay، error taxonomy و Origin در PART U و `DECISIONS.md` ثبت شده‌اند.
 
 ---
@@ -206,10 +217,11 @@ D3 مسیر اجرای ابری است.
 
 اصول تأییدشدهٔ D3:
 
+- executor/service ابری D3 در Alpha با Python mapping می‌شود؛
 - cloud نباید مستقل و خودسرانه TSETMC را scrape کند؛
 - cloud snapshot ارسالی client یا منبعی را مصرف می‌کند که مستقل و مجاز تأیید شده باشد؛
 - انتقال دادهٔ بازار، profile و filter با رضایت و policy روشن انجام می‌شود؛
-- data residency، retention، deletion، authentication و cloud topology هنوز نهایی نشده‌اند؛
+- data residency، retention، deletion، authentication، packaging و cloud topology هنوز نهایی نشده‌اند؛
 - parity با D1 و D2 باید با canonical fixture و test اثبات شود.
 
 ---
@@ -370,18 +382,17 @@ Compute Dispatcher فقط در Artifact B قرار می‌گیرد و هرگز �
 - نباید network policy deployment جاری را دور بزند؛
 - شکست ظرفیت باید گزارش شود، نه پنهان.
 
-جزئیات انتخاب executor، زبان service، پورت concrete، authentication implementation و cloud topology هنوز تصمیم نهایی نیستند؛ transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده است.
+D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python mapping شده‌اند. پورت concrete، authentication implementation، packaging و cloud topology هنوز تصمیم نهایی نیستند؛ transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده است.
 
 ---
 
 ## ۱۶. تصمیم‌های باقی‌مانده برای تأیید مالک
 
-این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport پایهٔ D2 برای Alpha در تصمیم `D-2026-10-03-001` انتخاب شده و دیگر در این فهرست باز نیست:
+این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. transport D2 و mapping زبان‌های D1/D2/D3 در تصمیم‌های `D-2026-10-03-001` و `D-2026-10-03-002` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
 
-1. زبان service محلی D2؛
-2. معماری D3: Serverless، Container، VM یا گزینهٔ دیگر؛
-3. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
-4. ترتیب نهایی افزودن PARTها و gateها.
+1. معماری D3: Serverless، Container، VM یا گزینهٔ دیگر؛
+2. نام و شمارهٔ نسخهٔ successor پس از Alpha؛
+3. ترتیب نهایی افزودن PARTها و gateها.
 
 هیچ‌کدام از این گزینه‌ها در این Alpha default نیستند.
 
@@ -619,7 +630,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 - reset؛
 - result consumed یا rejected به‌دلیل mismatch snapshot.
 
-**PART U در این Alpha فقط transport D2 را قطعی می‌کند؛ زبان service، پورت concrete، cloud transport و hard-timeout/pool defaults هنوز تصمیم نهایی نیستند.**
+**PART U در این Alpha transport D2 و lifecycle آن را قطعی می‌کند. D2 با Node.js LTS mapping شده است؛ پورت concrete، packaging، cloud transport و hard-timeout/pool defaults هنوز تصمیم نهایی نیستند.**
 
 ---
 

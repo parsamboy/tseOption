@@ -90,3 +90,50 @@ queued → running → done
 ### Revisit condition
 
 اگر streaming دوطرفهٔ کم‌تأخیر به نیاز سخت محصول تبدیل شود، transport دوم WebSocket با همان message schema و همان semantics job بررسی می‌شود.
+
+## D-2026-10-03-002: Runtime Language Mapping for D1, D2 and D3
+
+- **Class:** B — deployment/runtime architecture
+- **Date:** 2026-10-03
+- **Version:** Architecture Contract Alpha
+- **Decision maker:** مالک پروژه
+- **Status:** accepted for Alpha direction
+
+### Question
+
+زبان اجرای core و service در سه deployment چگونه mapping شود؟
+
+### Chosen mapping
+
+```text
+D1 Browser-Native: Browser JavaScript + Web Worker
+D2 Hybrid:         Node.js LTS local service
+D3 Cloud:          Python cloud executor/service
+```
+
+### Clarifications
+
+- Node.js runtime داخل صفحهٔ TSETMC اجرا نمی‌شود؛ D1 در browser با JavaScript و Worker اجرا می‌شود.
+- D2 از Node.js LTS برای HTTP/JSON + SSE، اجرای job و Worker/process pool استفاده می‌کند.
+- D3 برای executor یا service ابری Python را انتخاب می‌کند؛ انتخاب Serverless، Container، VM و topology هنوز باز است.
+- این تصمیم به معنی دو منطق مستقل نیست. canonical computation، schema، rounding، missing semantics، model version و cross-language parity باید مشترک باشند.
+- هستهٔ JavaScript D1 و D2 می‌تواند مشترک باشد، اما D3 Python فقط پس از parity fixture و test معتبر eligible می‌شود.
+- انتخاب Python برای D3 مجوز cloud scrape یا دورزدن network policy TSETMC نیست.
+
+### Reason
+
+- D1 با JavaScript موجود و محدودیت browser سازگار می‌ماند؛
+- D2 کمترین فاصله را با هستهٔ فعلی و parity اولیه دارد؛
+- D3 از اکوسیستم Quant پایتون برای مدل‌های عددی سنگین استفاده می‌کند؛
+- transport و core مستقل از زبان باقی می‌مانند.
+
+### Still open
+
+این تصمیم موارد زیر را انتخاب نمی‌کند:
+
+- cloud topology؛
+- packaging و distribution دقیق Node.js؛
+- Python runtime packaging؛
+- libraryهای عددی مجاز؛
+- ترتیب اجرای executorها؛
+- parity fixtures و release gateهای نهایی.
