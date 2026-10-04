@@ -1,6 +1,6 @@
-# Evidence Ledger — Zharfa Alpha
+# Evidence Ledger — Zharfa canonical v6.0
 
-**وضعیت:** قالب و رجیستر evidence برای Alpha؛ canonical نیست و خودِ وجود یک ردیف در این فایل به‌تنهایی ادعای verified بودن نیست.
+**وضعیت:** قالب و رجیستر evidence برای قرارداد canonical v6.0؛ وجود یک ردیف در این فایل به‌تنهایی ادعای platform-verified بودن نیست.
 
 ## ۱. طبقه‌بندی provenance
 

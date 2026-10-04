@@ -1,4 +1,4 @@
-# v5.0 Cleanup Register — Alpha
+# v5.0 Cleanup Register — canonical v6.0 successor
 
 **وضعیت:** register اصلاحات و تعارض‌های شناخته‌شده؛ قرارداد canonical v5.0 را تغییر نمی‌دهد و هیچ اصلاحی تا تصویب successor به‌صورت silent اعمال نمی‌شود.
 
@@ -35,6 +35,6 @@
 
 - v5.0 baseline حفظ می‌شود؛
 - این register مجوز تغییر مستقیم v5.0 نیست؛
-- هر resolution باید در successor Alpha/v6.0 با provenance و تست ثبت شود؛
+- هر resolution باید در successor canonical v6.0 با provenance و تست ثبت شود؛
 - حل یک مورد که بر gateهای downstream اثر دارد، آن gateها را دوباره باز می‌کند؛
-- هیچ cleanupای مجوز تولید کد محصول قبل از تأیید successor نیست.
+- هیچ cleanupای به‌تنهایی مجوز تولید کد محصول، live probe یا shipping نیست؛ gate مستقل لازم است.

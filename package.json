@@ -11,7 +11,7 @@
   "homepage": "https://t.me/SmartOptionTSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/parsamboy/tseOption"
+    "url": "https://github.com/parsamboy/tseZharfaKavosh"
   },
   "devDependencies": {
     "acorn": "8.18.0",

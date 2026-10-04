@@ -1,10 +1,10 @@
-# قرارداد معماری Zharfa Smart Filter — نسخهٔ Alpha
+# قرارداد معماری Zharfa Smart Filter — نسخهٔ canonical v6.0
 
-**وضعیت: ALPHA — برای بازبینی و تأیید مالک؛ canonical نیست و مجوز shipping یا تولید کد محصول نیست.**
+**وضعیت: CANONICAL v6.0 — با تأیید مالک در 2026-10-04؛ این canonicalization فقط برای architecture/governance است و مجوز shipping یا production-ready بودن محصول نیست.**
 
-**برچسب بررسی:** این سند candidate برای successor هدف `v6.0` است؛ تا بسته‌شدن gateها و تأیید نهایی، عنوان رسمی آن همچنان `Architecture Contract Alpha` باقی می‌ماند و این برچسب نسخهٔ نهایی را زودتر تعیین نمی‌کند.
+**دامنهٔ این تأیید:** این سند قرارداد canonical successor است. release اولیهٔ `tseZharfaKavosh v0.1.0.0` همچنان governance-only است؛ gateهای فنی باز در `docs/PENDING.md` باقی می‌مانند و این approval آن‌ها را بی‌صدا نمی‌بندد یا waive نمی‌کند.
 
-این سند فقط تصمیم‌ها و اصلاحاتی را که در بازبینی مالک پذیرفته شده‌اند ثبت می‌کند. انتخاب‌های حل‌نشده در بخش «تصمیم‌های باقی‌مانده» می‌آیند و نباید به‌عنوان default، واقعیت پلتفرم یا مصوبهٔ معماری تفسیر شوند.
+این سند تصمیم‌ها، policyها و اصلاحات پذیرفته‌شده را برای قرارداد canonical successor ثبت می‌کند. انتخاب‌های حل‌نشده در بخش «تصمیم‌های باقی‌مانده» می‌آیند و نباید به‌عنوان default، واقعیت پلتفرم یا مصوبهٔ معماری تفسیر شوند.
 
 مبنای پلتفرم و محدودیت‌های Artifact A، قرارداد canonical v5.0 در commit زیر است:
 
@@ -126,7 +126,7 @@ fork از tseOption_ExoticFilter v0.0.4.6
 
 ۵. هیچ خروجی AI یا fork نمی‌تواند donation، tracking، telemetry، feature gating یا data transfer پنهان اضافه کند. هر تغییر privacy/data-transfer باید Class B و در `docs/PENDING.md` یا decision ثبت شود.
 
-۶. این policy جایگزین تأیید مالک برای canonical v6.0 نیست و approval record باید خالی بماند تا تأیید واقعی ثبت شود.
+۶. این policy جایگزین gateهای فنی و release approval نیست؛ تأیید canonical در Approval Record ثبت شده است، اما approval record مجوز shipping یا اجرای کد محصول محسوب نمی‌شود.
 
 ---
 
@@ -518,7 +518,7 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 1. دامنهٔ دقیق قابلیت‌های Alpha به‌عنوان phased release یا عدم تعیین scope محدود؛ در `docs/PENDING.md` با شناسهٔ `P-DEC-001`؛
 2. privacy و data-transfer policy به‌عنوان تصمیم Class B؛ در `docs/PENDING.md` با شناسهٔ `P-DEC-002`.
 
-سند فعلی همچنان بدون شماره و با عنوان `Architecture Contract Alpha` باقی می‌ماند. هدف successor پس از تکمیل تصمیم‌های Class B، `v6.0` است؛ این هدف هنوز مجوز shipping نیست.
+این سند اکنون با عنوان `Zharfa Smart Filter Contract v6.0` canonical است. canonical شدن قرارداد به‌تنهایی مجوز shipping، اجرای probe زنده یا production-ready بودن release نیست؛ این موارد به gateهای مستقل و تصمیم‌های PENDING وابسته‌اند.
 
 ---
 
@@ -549,20 +549,27 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 
 ---
 
-## ۱۸. وضعیت Alpha و قاعدهٔ تولید
+## ۱۸. وضعیت canonical v6.0 و قاعدهٔ تولید
 
 این سند:
 
-- canonical نیست؛
-- v5.0 را بی‌صدا supersede نمی‌کند؛
+- با ثبت تصمیم‌های Class B و تأیید صریح مالک در `D-2026-10-04-003`، canonical v6.0 است؛
+- قرارداد canonical v5.0 را بی‌صدا بازنویسی نمی‌کند و lineage آن را حفظ می‌کند؛
 - به‌تنهایی مجوز تولید Artifact A یا B نیست؛
-- مجوز probe زنده یا shipping نیست؛
-- defaultهای حل‌نشده را تعیین نمی‌کند؛
+- مجوز probe زنده، shipping یا production-ready بودن نیست؛
+- defaultهای حل‌نشده و gateهای باز را به‌صورت خاموش تعیین نمی‌کند؛
 - اصل عدم جعل داده و عدم کاهش خاموش دامنه را حفظ می‌کند.
 
-با ثبت پنج تصمیم Class B (`D-2026-10-03-001` تا `D-2026-10-03-005`) و پیش از بسته‌شدن دو PENDING باقی‌مانده، successor هدف با عنوان `v6.0` شناخته می‌شود؛ با این حال انتشار یا shipping آن فقط پس از بسته‌شدن gateهای فنی، تعیین تکلیف دو PENDING و تأیید نهایی مالک مجاز است. هر کد محصول باید پس از آن، source/min، `node --check`، اسکن ۵۹ trigger، parity و الزامات PART G/H را رعایت کند.
+وضعیت release اولیه:
 
-## ۱۹. PART U — Transport Layer Alpha
+- `tseZharfaKavosh v0.1.0.0` فقط governance، legal documentation، contract و metadata است؛
+- adapter، core logic، UI، compiler، live probe و market-data runtime در این release وجود ندارد؛
+- gateهای G-03 تا G-14 و G-16 تا G-18 در `docs/PENDING.md` باز هستند؛
+- شروع تولید به معنی شروع مرحلهٔ قراردادی و validation است، نه مجوز shipping محصول.
+
+هر کد محصول آینده باید source/min، `node --check`، اسکن ۵۹ trigger، parity، legal parity و الزامات PART G/H را رعایت کند.
+
+## ۱۹. PART U — Transport Layer
 
 PART U سه سطح مستقل را تعریف می‌کند. این سه سطح نباید در implementation یا trace با یکدیگر اشتباه شوند:
 
@@ -780,13 +787,13 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 این مرحله فقط ساختار پایه را تثبیت می‌کند:
 
-شرط وجودی پیش از canonical شدن successor:
+پیش‌شرط‌های canonicalization که اکنون در repository موجود و versioned هستند:
 
 - `docs/DECISIONS.md` باید در repository ایجاد و شامل ورودی‌های `D-2026-10-03-001` تا `D-2026-10-03-005` باشد؛
 - `docs/PENDING.md` باید در repository ایجاد و شامل `P-DEC-001` و `P-DEC-002` باشد؛
 - `docs/V5_CLEANUP.md` باید در repository ایجاد و register کامل cleanup را نگه دارد؛
 - `docs/EVIDENCE_LEDGER.md` باید قالب و provenance evidence را نگه دارد؛
-- تا وجود فیزیکی و نسخه‌دار این فایل‌ها، v6.0 canonical محسوب نمی‌شود.
+- وجود فیزیکی و versioned این فایل‌ها در commit canonical ثبت شده است؛ approval نهایی در `D-2026-10-04-003` آمده است.
 
 - سه سطح ادعا؛
 - ساختار `docs/DECISIONS.md`؛
@@ -795,7 +802,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 - ساختار `docs/V5_CLEANUP.md`؛
 - Artifact A و Artifact B؛
 - D1، D2 و D3؛
-- Alpha بدون شماره.
+- successor با شمارهٔ canonical `v6.0`.
 
 این مرحله ادعای جدید platform را تأیید نمی‌کند.
 
@@ -914,23 +921,24 @@ Profile/executor indicator، freshness، apply state، dispatcher، pool policy�
 14. option-chain، option-to-underlying، OI و multiplier؛
 15. evidence pointer برای ادعاهای `Verified`.
 
-## ۲۲. Approval Record — خالی تا تأیید مالک
+## ۲۲. Approval Record — تأیید canonical مالک
 
 ```text
-Candidate: Zharfa Smart Filter Contract v6.0
-Current label: Architecture Contract Alpha
-Status: pending owner approval
-Approved by: [owner]
-Approved at: [date and timezone]
-Signature/reference: [DECISIONS.md entry or external approval reference]
+Canonical: Zharfa Smart Filter Contract v6.0
+Current label: Architecture Contract v6.0
+Status: approved for architecture/governance; product release gates remain open
+Approved by: مالک پروژه
+Approved at: 2026-10-04 Asia/Tehran
+Signature/reference: D-2026-10-04-003 in docs/DECISIONS.md
 
 Approval statement:
-The owner confirms that the required Class B decisions are recorded,
-the accepted technical gates are closed or explicitly waived, the
-remaining PENDING items are understood, and this document is canonical
-as v6.0.
+The owner approves this document as the canonical v6.0 architecture
+and governance contract for the successor scope. The owner understands
+that the remaining technical gates are still tracked in PENDING, that
+this approval does not waive them, and that v0.1.0.0 remains a
+governance-only release with no product shipping authorization.
 ```
 
-این بخش عمداً خالی است و تا تأیید واقعی مالک نباید پر شود.
+این approval فقط canonical بودن قرارداد را ثبت می‌کند؛ release approval و production readiness باید از مسیر gateهای مستقل به‌دست آید.
 
-**END OF ARCHITECTURE CONTRACT ALPHA**
+**END OF CANONICAL ARCHITECTURE CONTRACT v6.0**

@@ -1,6 +1,6 @@
 # تصمیم‌های معماری Zharfa
 
-این فایل تصمیم‌های Class B را از فرض‌های معماری، evidence پلتفرم و gateهای validation جدا می‌کند. مالک پروژه تصمیم‌گیرندهٔ نهایی است و این فایل در git به‌عنوان رجیستر نسخه‌دار نگه‌داری می‌شود. تصمیم‌های ثبت‌شده در این Alpha فقط در محدودهٔ نسخهٔ Alpha معتبرند و تا تصویب successor نهایی، به‌تنهایی مجوز shipping نیستند.
+این فایل تصمیم‌های Class B را از فرض‌های معماری، evidence پلتفرم و gateهای validation جدا می‌کند. مالک پروژه تصمیم‌گیرندهٔ نهایی است و این فایل در git به‌عنوان رجیستر نسخه‌دار نگه‌داری می‌شود. تصمیم‌های ثبت‌شده در این رجیستر مبنای قرارداد canonical v6.0 successor هستند؛ هیچ تصمیمی به‌تنهایی مجوز shipping یا production-ready بودن محصول نیست.
 
 ## D-2026-10-03-001: D2 Transport for Alpha
 
@@ -283,7 +283,7 @@ Python managed-container service
 - **Date:** 2026-10-04
 - **Version:** `tseZharfaKavosh v0.1.0.0` / Architecture Contract Alpha
 - **Decision maker:** مالک پروژه
-- **Status:** accepted by owner declaration; pending contract approval for canonicalization
+- **Status:** accepted by owner declaration; scope canonicalized by `D-2026-10-04-003`
 
 ### Question
 
@@ -320,7 +320,7 @@ Python managed-container service
 - **Date:** 2026-10-04
 - **Version:** `tseZharfaKavosh v0.1.0.0`
 - **Decision maker:** مالک پروژه
-- **Status:** accepted policy; pending contract approval for canonicalization
+- **Status:** accepted policy; canonical interpretation recorded by `D-2026-10-04-003`
 
 ### Question
 
@@ -346,8 +346,54 @@ Donation در successor چگونه مجاز باشد بدون آن‌که به �
 
 - متن مجوز: `LICENSE`
 - سیاست و channel placeholder: `DONATION.md`
-- contract interpretation: PART F.8.14 و PART H در `docs/architecture-contract-alpha.md`
+- contract interpretation: PART F.8.14 و PART H در `docs/ARCHITECTURE_CONTRACT_v6.0.md`
 
 ### Non-effects
 
 این تصمیم Approval Record، canonical v6.0، live probe، LEGAL runtime module یا donation channel واقعی ایجاد نمی‌کند.
+
+## D-2026-10-04-003: Owner Approval and Canonicalization of v6.0
+
+- **Class:** B — governance/release contract
+- **Date:** 2026-10-04
+- **Version:** `Zharfa Smart Filter Contract v6.0`
+- **Decision maker:** مالک پروژه
+- **Status:** accepted; canonicalization approved for architecture/governance
+
+### Question
+
+آیا قرارداد successor پس از ثبت تصمیم‌های Class B، ایجاد governance files و تعیین scope مجوز، به‌عنوان قرارداد canonical v6.0 ثبت شود؟
+
+### Owner approval
+
+مالک پروژه دستور صریح داده است: «قرارداد را نهائی کن و ریپوزیتوری جدید را ساختم خودت فایلهای لازم را انتقال بده و آماده شروع تولید بشو». این دستور به‌عنوان تأیید مالک برای canonical شدن قرارداد معماری و governance ثبت می‌شود.
+
+### Chosen
+
+`docs/ARCHITECTURE_CONTRACT_v6.0.md` قرارداد canonical successor است.
+
+### Scope of approval
+
+- canonicalization فقط scope معماری، governance، legal policy و contract را پوشش می‌دهد؛
+- `tseZharfaKavosh v0.1.0.0` همچنان governance-only است و adapter، core logic، UI، compiler، live probe یا market-data runtime ندارد؛
+- gateهای فنی باز در `docs/PENDING.md` باقی می‌مانند و این تصمیم آن‌ها را silently close یا waive نمی‌کند؛
+- شروع production به معنی شروع کار قراردادی و validation است، نه مجوز shipping یا ادعای production-ready بودن؛
+- ترتیب بعدی مصوب همان `contracts/01-data-source/spec.md`، سپس probe تأییدشدهٔ `mw.AllRows` و ثبت `E-011` است؛
+- هر probe زنده، source modification یا product code به approval و gate مستقل خود نیاز دارد.
+
+### Required references
+
+- قرارداد canonical: `docs/ARCHITECTURE_CONTRACT_v6.0.md`
+- تصمیم‌های باز و gateها: `docs/PENDING.md`
+- evidence و provenance: `docs/EVIDENCE_LEDGER.md`
+- مجوز successor: `LICENSE`
+- donation policy: `DONATION.md`
+
+### Non-effects
+
+این تصمیم:
+
+- gateهای فنی را بسته اعلام نمی‌کند؛
+- release اولیه را production-ready اعلام نمی‌کند؛
+- مجوز انتقال یا تغییر silent در artifactهای تاریخی upstream را نمی‌دهد؛
+- مجوز اجرای live probe بدون ثبت approval و evidence نمی‌دهد.

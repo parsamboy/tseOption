@@ -1,6 +1,6 @@
-# فهرست موارد باز Zharfa — Alpha
+# فهرست موارد باز Zharfa — قرارداد canonical v6.0
 
-**وضعیت:** سند کنترل تصمیم و validation؛ canonical نیست و مجوز تولید کد یا shipping نیست.
+**وضعیت:** سند کنترل تصمیم و validation؛ قرارداد v6.0 canonical شده، اما این فایل gateهای باز را نگه می‌دارد و مجوز تولید کد، shipping یا production-ready بودن نیست.
 
 مواردی که در `docs/DECISIONS.md` انتخاب شده‌اند از این فهرست به‌عنوان تصمیم باز حذف می‌شوند. این فایل فقط تصمیم‌های هنوز تأییدنشده و gateهای فنی باز را نگه می‌دارد.
 
@@ -49,7 +49,7 @@
 
 | شناسه | Gate | وضعیت | خروجی لازم |
 |---|---|---|---|
-| G-01 | Governance پایه | ثبت شد؛ canonical approval باز | ساختار `docs/DECISIONS.md`، `docs/PENDING.md` و `docs/EVIDENCE_LEDGER.md` |
+| G-01 | Governance پایه | ثبت شد؛ canonical approval در D-2026-10-04-003 | ساختار `docs/DECISIONS.md`، `docs/PENDING.md` و `docs/EVIDENCE_LEDGER.md` |
 | G-02 | تصمیم‌های بنیادین | عمدتاً بسته | D2 transport، runtime mapping، D3 topology و version policy ثبت شده؛ Alpha scope باز |
 | G-03 | `mw.AllRows` | باز | provenance، host، realm، schema، scope، refresh behavior و fixture |
 | G-04 | option/universe/parser | باز | parser نسخه‌دار، label fixture و relation fixture |
@@ -63,7 +63,7 @@
 | G-12 | exact A projection | باز | تعریف snapshot، emitter دقیق، capacity و cost evidence |
 | G-13 | bridge confirmation | باز | authoritative state، apply/persist probe و trace |
 | G-14 | source/min/release | باز | `node --check`، ۵۹ scan، parity، PART G/H و smoke |
-| G-15 | owner release approval | باز | تأیید نهایی successor هدف `v6.0` |
+| G-15 | product release approval | باز؛ canonical contract جداگانه تأیید شده | تأیید release محصول پس از gateهای فنی |
 | G-16 | SSE fallback policy | باز | `maxAttempts`، `pollInterval`، `maxFallbackDuration` و trace |
 | G-17 | D3 authentication/discovery | باز | provider، OAuth 2.0/OIDC discovery، signature و verification policy |
 | G-18 | Alpha scope approval | باز | تعیین اینکه D3 و ماژول‌های advanced در Alpha shipping هستند یا phased |

@@ -203,5 +203,5 @@ DONATION.md in the project root.
 For the list of decided policies, see
 docs/DECISIONS.md.
 
-For the architecture contract candidate, see
-docs/architecture-contract-alpha.md.
+For the canonical architecture contract, see
+docs/ARCHITECTURE_CONTRACT_v6.0.md.

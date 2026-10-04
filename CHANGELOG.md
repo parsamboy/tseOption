@@ -26,13 +26,15 @@ All notable changes to `tseZharfaKavosh` are recorded here.
 
 ### Status
 
-This is a governance-only initial release. The Alpha contract
-remains a candidate and the v6.0 Approval Record remains empty.
+This is a governance-only initial release. The architecture contract is now canonical v6.0 for governance.
+The v0.1.0.0 product release remains blocked by its open technical
+gates and is not production-ready.
 This release is not canonical v6.0, shipping, or production-ready.
 
 ## [Unreleased]
 
-Technical work may begin only after the relevant owner approval,
-Class B decisions, evidence, and gates are recorded. The first
+Technical work may begin after the canonical contract approval, but
+each implementation step still requires its relevant owner approval,
+Class B decisions, evidence, and gate closure. The first
 proposed artifact is `contracts/01-data-source/spec.md`, followed
 by an approved `mw.AllRows` probe and evidence entry `E-011`.
