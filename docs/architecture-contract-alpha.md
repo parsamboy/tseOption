@@ -58,34 +58,40 @@
 
 ### ۱.۴ مؤلف، lineage و حقوق قانونی
 
-این Alpha نام و lineage اصلی موجود در artifactهای پروژه را جایگزین یا حذف نمی‌کند. اطلاعات قانونی inherited از سربرگ و LEGAL module موجود در نسخه‌های پروژه است:
+مالک پروژه صریحاً اعلام کرده است که مالک حقوق upstream، fork و successor است و اختیار صدور مجوز successor را دارد. بر همین مبنا، successor `tseZharfaKavosh v0.1.0.0` با مجوز `Smart-FFA-1.1` آماده می‌شود. artifactهای تاریخی v5.0 و نسخه‌های پیشین همچنان lineage و notice تاریخی خود را حفظ می‌کنند.
 
 - **مؤلف اصلی:** `https://t.me/p75ad`
 - **گروه پروژه:** `https://t.me/SmartOptionTSE`
-- **lineage:** `tseOptionZharfa` به‌عنوان fork از `tseOption_ExoticFilter v0.0.4.6`؛ هر fork باید lineage upstream را آشکار نگه دارد.
-- **مجوز:** `Smart-FFA-1.0 (Free Fork with Attribution)`
-- **کپی‌رایت:** `© ۱۴۰۵ — حقوق مؤلف محفوظ است`
+- **lineage:** `tseZharfaKavosh` از `tseOptionZharfa v0.0.4.1` و آن از `tseOption_ExoticFilter v0.0.4.6`؛
+- **مجوز successor:** `Smart-FFA-1.1 (Free Fork with Attribution and Optional Donation)`؛
+- **کپی‌رایت:** `© ۱۴۰۵ — حقوق مؤلف محفوظ است`؛
+- **scope:** مجوز v1.1 برای successor و مواد مجاز همان release است و attribution/upstream lineage را حذف یا تحریف نمی‌کند.
 
-حقوق اعلام‌شدهٔ مجوز inherited:
+حقوق و شروط Smart-FFA-1.1:
 
-- برداشتن، بازنویسی، گسترش و انتشار نسخهٔ مستقل آزاد است؛
-- شرط attribution این است که سربرگ fork نام و نشانی مؤلف اصلی را دست‌نخورده نگه دارد؛
-- attribution، شناسهٔ مجوز و lineage نباید حذف، پنهان، جایگزین یا تحریف شوند؛
-- fork می‌تواند author و version خود را اضافه کند، اما نمی‌تواند آن‌ها را جایگزین attribution upstream کند.
+- استفاده، مطالعه، تغییر، fork، بازتوزیع، bundle و استفادهٔ تجاری مجاز است؛
+- حفظ نام و نشانی مؤلف اصلی، شناسهٔ مجوز و lineage الزامی است؛
+- donation اختیاری است و license fee، subscription، royalty یا feature unlock نیست؛
+- پروژه donation status را track، store یا بر اساس آن feature/priority تعیین نمی‌کند؛
+- fork می‌تواند donation channel خود را اضافه یا channel upstream را حذف کند، اما نباید attribution upstream را با channel خود جایگزین کند؛
+- این بخش scope مجوز را ثبت می‌کند و جای مشاورهٔ حقوقی حوزهٔ قضایی کاربر نیست.
 
 **رفع مسئولیت قانونی/محصولی:**
 
 > این ابزار صرفاً تحلیلی و اطلاعاتی است؛ تضمین سود نمی‌دهد و مسئولیت هر تصمیم و معامله تنها بر عهده کاربر است.
 
-`fullNotice` inherited که باید در legal module حفظ شود:
+`fullNotice` successor:
 
 ```text
-tseOptionZharfa
+tseZharfaKavosh
+fork از tseOptionZharfa v0.0.4.1
+fork از tseOption_ExoticFilter v0.0.4.6
 مؤلف اصلی: https://t.me/p75ad
 گروه پروژه: https://t.me/SmartOptionTSE
-مجوز: Smart-FFA-1.0 (Free Fork with Attribution)
+مجوز: Smart-FFA-1.1 (Free Fork with Attribution and Optional Donation)
 © ۱۴۰۵ — حقوق مؤلف محفوظ است
 این ابزار صرفاً تحلیلی و اطلاعاتی است؛ تضمین سود نمی‌دهد و مسئولیت هر تصمیم و معامله تنها بر عهده کاربر است.
+حمایت اختیاری: حمایت هیچ ویژگی‌ای را باز نمی‌کند و اجباری نیست.
 ```
 
 قواعد delivery حقوقی:
@@ -94,7 +100,33 @@ tseOptionZharfa
 - min representation همهٔ نویسه‌های non-ASCII را به Unicode escape تبدیل می‌کند؛
 - legal source/min parity اجباری است؛
 - legal notice باید در footer پنل و سطوح هشدار/تأیید لازم حاضر باشد؛
-- این بخش attribution و disclaimer inherited را ثبت می‌کند و ادعای حقوقی گسترده‌تر از متن مجوز ایجاد نمی‌کند.
+- donation notice تا پرشدن channelهای مالک نباید مقصد فعال جعلی بسازد؛
+- `LICENSE` و `DONATION.md` در root و سیاست‌های تصمیم/معماری در `docs/` نگه‌داری می‌شوند.
+
+### تفسیر افزودهٔ PART F.8.14 — Donation اختیاری
+
+این interpretation برای successor Smart-FFA-1.1 الزام‌آور است:
+
+- donation کاملاً voluntary و optional است و هیچ feature، access، priority یا حق استفاده‌ای را unlock نمی‌کند؛
+- donation license fee، subscription، royalty یا شرط use/fork/redistribution نیست؛
+- هیچ donation status در source، panel، compiler، analytics یا telemetry track/store نمی‌شود؛
+- تا ثبت channel واقعی توسط owner، placeholder موجود در `DONATION.md` نباید به مقصد فعال تعبیر شود؛
+- fork می‌تواند channel خود را اضافه کند یا channel upstream را حذف کند، اما باید attribution و ownership channelها را روشن نگه دارد؛
+- این interpretation به‌تنهایی مجوز اجرای payment processor یا افزودن code محصول نیست.
+
+### PART H — Smart-FFA AI/Fork Policy v1.1
+
+۱. هر کد، متن، fixture یا artifact تولیدشده با کمک AI باید همان attribution، lineage، license notice، no-tracking و no-feature-unlock policy را حفظ کند؛ AI بودن منبع، تعهدهای license را کاهش نمی‌دهد.
+
+۲. fork و derivative می‌تواند author/version خود و channel donation خود را اضافه کند، اما attribution upstream، نام مؤلف، گروه، lineage و disclaimer فارسی را حذف یا تحریف نمی‌کند.
+
+۳. successor license v1.1 به upstream historical artifactها به‌صورت retroactive اعمال نمی‌شود. scope هر release باید در decision register و header همان release قابل تشخیص باشد.
+
+۴. v0.1.0.0 فقط governance scaffold، contract، legal documentation و metadata است؛ LEGAL runtime module، donation footer اجرایی، adapter، core logic، UI، compiler و live probe تا approval و gate مربوط تولید یا اجرا نمی‌شوند.
+
+۵. هیچ خروجی AI یا fork نمی‌تواند donation، tracking، telemetry، feature gating یا data transfer پنهان اضافه کند. هر تغییر privacy/data-transfer باید Class B و در `docs/PENDING.md` یا decision ثبت شود.
+
+۶. این policy جایگزین تأیید مالک برای canonical v6.0 نیست و approval record باید خالی بماند تا تأیید واقعی ثبت شود.
 
 ---
 
@@ -165,7 +197,7 @@ D3 = Python cloud executor/service
 - `ApplyBridge`
 - `EvidenceLedger`
 
-هر deployment implementation مخصوص خود را دارد. در Alpha، D1 با Browser JavaScript/Worker، D2 با Node.js LTS و D3 با Python mapping می‌شود؛ این mapping در `DECISIONS.md` ثبت شده است.
+هر deployment implementation مخصوص خود را دارد. در Alpha، D1 با Browser JavaScript/Worker، D2 با Node.js LTS و D3 با Python mapping می‌شود؛ این mapping در `docs/DECISIONS.md` ثبت شده است.
 
 Core مشترک نباید به DOM، `window.mw`، localStorage، localhost یا cloud API وابسته باشد.
 
@@ -250,7 +282,7 @@ D2 مسیر اجرای محلی با service روی دستگاه کاربر اس
 - transport D2 یک network surface جدا از acquisition TSETMC است و فقط job، snapshot، result و event مربوط به همان job را منتقل می‌کند؛
 - زبان service D2 برای Alpha، Node.js LTS است؛
 - پورت concrete، authentication implementation، storage engine و جزئیات packaging هنوز انتخاب نشده‌اند؛
-- جزئیات الزامی lifecycle، snapshot، cancel، replay، error taxonomy و Origin در PART U و `DECISIONS.md` ثبت شده‌اند.
+- جزئیات الزامی lifecycle، snapshot، cancel، replay، error taxonomy و Origin در PART U و `docs/DECISIONS.md` ثبت شده‌اند.
 
 ---
 
@@ -473,7 +505,7 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 
 ## ۱۶. تصمیم‌های باقی‌مانده برای تأیید مالک
 
-این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. تصمیم‌های زیر قبلاً در `DECISIONS.md` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
+این بخش فقط مواردی را نگه می‌دارد که هنوز نیازمند انتخاب/تأیید صریح هستند. تصمیم‌های زیر قبلاً در `docs/DECISIONS.md` ثبت شده‌اند و دیگر در این فهرست باز نیستند:
 
 - `D-2026-10-03-001` — transport D2؛
 - `D-2026-10-03-002` — mapping زبان‌های D1/D2/D3؛
@@ -483,8 +515,8 @@ D1 با Browser JavaScript، D2 با Node.js LTS و D3 با Python در Managed 
 
 تصمیم‌های باقی‌مانده:
 
-1. دامنهٔ دقیق قابلیت‌های Alpha به‌عنوان phased release یا عدم تعیین scope محدود؛ در `PENDING.md` با شناسهٔ `P-DEC-001`؛
-2. privacy و data-transfer policy به‌عنوان تصمیم Class B؛ در `PENDING.md` با شناسهٔ `P-DEC-002`.
+1. دامنهٔ دقیق قابلیت‌های Alpha به‌عنوان phased release یا عدم تعیین scope محدود؛ در `docs/PENDING.md` با شناسهٔ `P-DEC-001`؛
+2. privacy و data-transfer policy به‌عنوان تصمیم Class B؛ در `docs/PENDING.md` با شناسهٔ `P-DEC-002`.
 
 سند فعلی همچنان بدون شماره و با عنوان `Architecture Contract Alpha` باقی می‌ماند. هدف successor پس از تکمیل تصمیم‌های Class B، `v6.0` است؛ این هدف هنوز مجوز shipping نیست.
 
@@ -750,17 +782,17 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 شرط وجودی پیش از canonical شدن successor:
 
-- `DECISIONS.md` باید در repository ایجاد و شامل ورودی‌های `D-2026-10-03-001` تا `D-2026-10-03-005` باشد؛
-- `PENDING.md` باید در repository ایجاد و شامل `P-DEC-001` و `P-DEC-002` باشد؛
-- `V5_CLEANUP.md` باید در repository ایجاد و register کامل cleanup را نگه دارد؛
-- `EVIDENCE_LEDGER.md` باید قالب و provenance evidence را نگه دارد؛
+- `docs/DECISIONS.md` باید در repository ایجاد و شامل ورودی‌های `D-2026-10-03-001` تا `D-2026-10-03-005` باشد؛
+- `docs/PENDING.md` باید در repository ایجاد و شامل `P-DEC-001` و `P-DEC-002` باشد؛
+- `docs/V5_CLEANUP.md` باید در repository ایجاد و register کامل cleanup را نگه دارد؛
+- `docs/EVIDENCE_LEDGER.md` باید قالب و provenance evidence را نگه دارد؛
 - تا وجود فیزیکی و نسخه‌دار این فایل‌ها، v6.0 canonical محسوب نمی‌شود.
 
 - سه سطح ادعا؛
-- ساختار `DECISIONS.md`؛
-- ساختار `PENDING.md`؛
-- ساختار `EVIDENCE_LEDGER.md`؛
-- ساختار `V5_CLEANUP.md`؛
+- ساختار `docs/DECISIONS.md`؛
+- ساختار `docs/PENDING.md`؛
+- ساختار `docs/EVIDENCE_LEDGER.md`؛
+- ساختار `docs/V5_CLEANUP.md`؛
 - Artifact A و Artifact B؛
 - D1، D2 و D3؛
 - Alpha بدون شماره.
@@ -769,7 +801,7 @@ D3 در این Alpha transport انتخاب‌شده ندارد. در هر تص�
 
 ### ۲۰.۲ مرحلهٔ ۱.ب — تصمیم‌های بنیادین
 
-تصمیم‌های transport D2، runtime mapping، D3 topology، version policy و gate order در `DECISIONS.md` ثبت شده‌اند. دامنهٔ دقیق قابلیت‌های Alpha همچنان باید به‌صورت جداگانه و صریح تعیین شود؛ فهرست in/out پیشنهادی بدون تأیید مالک مصوبه نیست.
+تصمیم‌های transport D2، runtime mapping، D3 topology، version policy و gate order در `docs/DECISIONS.md` ثبت شده‌اند. دامنهٔ دقیق قابلیت‌های Alpha همچنان باید به‌صورت جداگانه و صریح تعیین شود؛ فهرست in/out پیشنهادی بدون تأیید مالک مصوبه نیست.
 
 ### ۲۰.۳ مرحلهٔ ۲+۳ — Data و Transport به‌صورت co-design
 
@@ -860,11 +892,11 @@ Profile/executor indicator، freshness، apply state، dispatcher، pool policy�
 15 owner approval و target v6.0
 ```
 
-`V5_CLEANUP.md` register اصلاحات v5.0 است و v5.0 را بی‌صدا تغییر نمی‌دهد. هر dependency جدید می‌تواند gateهای downstream وابسته را دوباره باز کند.
+`docs/V5_CLEANUP.md` register اصلاحات v5.0 است و v5.0 را بی‌صدا تغییر نمی‌دهد. هر dependency جدید می‌تواند gateهای downstream وابسته را دوباره باز کند.
 
 ## ۲۱. V5_CLEANUP_SUMMARY
 
-این فهرست خلاصهٔ موارد باز cleanup v5.0 است. شرح کامل، وضعیت و اقدام هر مورد در `V5_CLEANUP.md` نگه‌داری می‌شود. این خلاصه v5.0 را بی‌صدا تغییر نمی‌دهد.
+این فهرست خلاصهٔ موارد باز cleanup v5.0 است. شرح کامل، وضعیت و اقدام هر مورد در `docs/V5_CLEANUP.md` نگه‌داری می‌شود. این خلاصه v5.0 را بی‌صدا تغییر نمی‌دهد.
 
 1. تعارض `A.5.4` دربارهٔ CDN reachable با `G.5.4` دربارهٔ same-origin network surface؛
 2. تعارض freshness در K.6 با Appendix E؛
