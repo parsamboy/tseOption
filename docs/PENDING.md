@@ -49,7 +49,7 @@
 
 | شناسه | Gate | وضعیت | خروجی لازم |
 |---|---|---|---|
-| G-01 | Governance پایه | در حال ثبت | ساختار `docs/DECISIONS.md`، `docs/PENDING.md` و `docs/EVIDENCE_LEDGER.md` |
+| G-01 | Governance پایه | ثبت شد؛ canonical approval باز | ساختار `docs/DECISIONS.md`، `docs/PENDING.md` و `docs/EVIDENCE_LEDGER.md` |
 | G-02 | تصمیم‌های بنیادین | عمدتاً بسته | D2 transport، runtime mapping، D3 topology و version policy ثبت شده؛ Alpha scope باز |
 | G-03 | `mw.AllRows` | باز | provenance، host، realm، schema، scope، refresh behavior و fixture |
 | G-04 | option/universe/parser | باز | parser نسخه‌دار، label fixture و relation fixture |
