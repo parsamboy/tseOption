@@ -1,0 +1,152 @@
+name: Transfer successor governance
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Source branch to transfer
+        required: true
+        type: string
+        default: arena/01a0f132-tseoption
+
+permissions:
+  contents: read
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+
+    env:
+      TARGET_REPO: parsamboy/tseZharfaKavosh
+      TARGET_BRANCH: main
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_ref }}
+          path: source
+          fetch-depth: 1
+
+      - name: Build allow-listed transfer
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SRC="$GITHUB_WORKSPACE/source"
+          DST="$RUNNER_TEMP/tseZharfaKavosh"
+
+          rm -rf "$DST"
+          mkdir -p "$DST"
+
+          copy_file() {
+            local file="$1"
+
+            if [[ ! -f "$SRC/$file" ]]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+
+            mkdir -p "$DST/$(dirname "$file")"
+            cp "$SRC/$file" "$DST/$file"
+          }
+
+          for file in \
+            .gitignore \
+            LICENSE \
+            DONATION.md \
+            README.md \
+            CHANGELOG.md \
+            package.json \
+            package-lock.json \
+            docs/ARCHITECTURE_CONTRACT_v6.0.md \
+            docs/DECISIONS.md \
+            docs/PENDING.md \
+            docs/EVIDENCE_LEDGER.md \
+            docs/V5_CLEANUP.md
+          do
+            copy_file "$file"
+          done
+
+          test -d "$SRC/contracts"
+          cp -a "$SRC/contracts" "$DST/"
+
+          python3 - "$DST" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          root = Path(sys.argv[1])
+
+          json.loads((root / "package.json").read_text())
+          json.loads((root / "package-lock.json").read_text())
+
+          required = [
+              "LICENSE",
+              "DONATION.md",
+              "README.md",
+              "CHANGELOG.md",
+              "docs/ARCHITECTURE_CONTRACT_v6.0.md",
+              "docs/DECISIONS.md",
+              "docs/PENDING.md",
+              "docs/EVIDENCE_LEDGER.md",
+              "docs/V5_CLEANUP.md",
+              "contracts/01-data-source/spec.md",
+          ]
+
+          for relative in required:
+              if not (root / relative).is_file():
+                  raise SystemExit(f"Missing transfer file: {relative}")
+
+          if (root / "docs/architecture-contract-alpha.md").exists():
+              raise SystemExit("Old Alpha contract path must not be transferred")
+
+          for path in root.rglob("*"):
+              if path.is_file() and path.suffix.lower() in {
+                  ".js", ".mjs", ".cjs", ".ts", ".tsx"
+              }:
+                  raise SystemExit(
+                      f"Product/source code found in transfer: {path}"
+                  )
+
+          print("Transfer manifest validation: OK")
+          PY
+
+          echo "TRANSFER_DIR=$DST" >> "$GITHUB_ENV"
+
+      - name: Push to successor repository
+        shell: bash
+        env:
+          TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          test -n "$TARGET_REPO_TOKEN"
+
+          TARGET_URL="https://github.com/${TARGET_REPO}.git"
+          AUTH_HEADER="$(
+            printf 'x-access-token:%s' "$TARGET_REPO_TOKEN" |
+            base64 -w0
+          )"
+
+          if git -c "http.extraheader=AUTHORIZATION: basic ${AUTH_HEADER}" \
+              ls-remote "$TARGET_URL" "refs/heads/${TARGET_BRANCH}" |
+              grep -q '[^[:space:]]'; then
+            echo "Target branch already exists. Refusing to overwrite it."
+            exit 1
+          fi
+
+          cd "$TRANSFER_DIR"
+
+          git init -b "$TARGET_BRANCH"
+          git config user.name "tseZharfaKavosh transfer"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add .
+          git diff --cached --check
+
+          git commit \
+            -m "v0.1.0.0: governance, canonical contract, project scaffold"
+
+          git -c "http.extraheader=AUTHORIZATION: basic ${AUTH_HEADER}" \
+            push "$TARGET_URL" "HEAD:${TARGET_BRANCH}"
